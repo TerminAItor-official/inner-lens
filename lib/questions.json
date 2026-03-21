@@ -1,0 +1,153 @@
+{
+  "opening": [
+    { "id": "O01", "text": "What's been sitting with you lately that you haven't said out loud?" },
+    { "id": "O02", "text": "What moment from this week keeps coming back to you?" },
+    { "id": "O03", "text": "Write about something you told yourself you were fine with." },
+    { "id": "O04", "text": "What did you want today that you couldn't ask for?" },
+    { "id": "O05", "text": "Who are you when no one is watching?" },
+    { "id": "O06", "text": "Write about a feeling you can't quite name." },
+    { "id": "O07", "text": "What are you carrying right now that isn't really yours?" },
+    { "id": "O08", "text": "What did you notice about yourself today that surprised you?" },
+    { "id": "O09", "text": "What conversation are you still having in your head?" },
+    { "id": "O10", "text": "Write about something you've been avoiding." },
+    { "id": "O11", "text": "What do you want more of? What do you want less of?" },
+    { "id": "O12", "text": "What story do you keep telling yourself about who you are?" },
+    { "id": "O13", "text": "Where in your body do you feel your emotions most?" },
+    { "id": "O14", "text": "What would you say if no one could judge you?" },
+    { "id": "O15", "text": "What are you grieving right now, even if it's small?" }
+  ],
+  "philosophers": {
+    "freud": {
+      "id": "freud",
+      "name": "Sigmund Freud",
+      "emoji": "🛋️",
+      "tagline": "What the mind buries, the body remembers.",
+      "colors": {
+        "bg": "#F5EDE8",
+        "text": "#6B4C3B",
+        "accent": "#A0522D"
+      },
+      "intro": "Freud would notice the things you almost didn't write — the repetitions, the guilt you can't place, the desire you've dressed up as something else. He believed that what we most need to look at is exactly what we most want to look away from.",
+      "questions": [
+        { "id": "FR1", "text": "This pattern you're describing — have you lived it before? Where does it lead you back to?" },
+        { "id": "FR2", "text": "When you feel guilty about this, whose voice do you hear?" },
+        { "id": "FR3", "text": "What would it mean if the thing you're ashamed of turned out to be something you actually want?" },
+        { "id": "FR4", "text": "You keep returning to this. What do you think the repetition is protecting you from?" },
+        { "id": "FR5", "text": "What would the younger version of you say about what you've just written?" },
+        { "id": "FR6", "text": "Is there something forbidden in what you've described — something you've decided you're not allowed to have?" },
+        { "id": "FR7", "text": "What are you dreaming about lately, even if only in the daytime?" },
+        { "id": "FR8", "text": "If the feeling you described had a name — and that name wasn't the one you gave it — what might it be?" }
+      ]
+    },
+    "anna_freud": {
+      "id": "anna_freud",
+      "name": "Anna Freud",
+      "emoji": "🪞",
+      "tagline": "Understanding your feelings is not the same as feeling them.",
+      "colors": {
+        "bg": "#EDF2F7",
+        "text": "#4A5568",
+        "accent": "#718096"
+      },
+      "intro": "Anna Freud would gently ask what you're doing with your feelings instead of having them. She saw how brilliantly we protect ourselves — and how much that protection costs us. She's not interested in tearing down your defenses. She wants to understand why you built them.",
+      "questions": [
+        { "id": "AF1", "text": "You've explained this very clearly. Now try writing about it without explaining it — just what it feels like in your body." },
+        { "id": "AF2", "text": "When did you first learn to be okay when you weren't?" },
+        { "id": "AF3", "text": "What are you protecting yourself from by staying in your head about this?" },
+        { "id": "AF4", "text": "You said you were fine — or something close to it. What would not-fine actually look like here?" },
+        { "id": "AF5", "text": "What feeling would you have if you stopped analyzing this for a moment?" },
+        { "id": "AF6", "text": "Who taught you that having needs was something to manage rather than express?" },
+        { "id": "AF7", "text": "What would happen if someone actually saw how much this is affecting you?" },
+        { "id": "AF8", "text": "What part of this are you working hardest to hold together right now?" }
+      ]
+    },
+    "winnicott": {
+      "id": "winnicott",
+      "name": "D.W. Winnicott",
+      "emoji": "🌱",
+      "tagline": "Are you being yourself, or the self that keeps everyone comfortable?",
+      "colors": {
+        "bg": "#E8F5E9",
+        "text": "#2D6A4F",
+        "accent": "#40916C"
+      },
+      "intro": "Winnicott believed that many of us learned very early to become who others needed us to be, rather than who we actually are. He called this the false self — a kind of armor that looks like a person. He's curious about who you are when you're not performing.",
+      "questions": [
+        { "id": "WN1", "text": "The version of you that showed up in this situation — was that really you, or the version of you that felt safe to show?" },
+        { "id": "WN2", "text": "When you imagine being fully yourself here, what's the first thing you'd be afraid of losing?" },
+        { "id": "WN3", "text": "Who taught you it was safer to adapt than to ask?" },
+        { "id": "WN4", "text": "Where do you feel most like yourself? What's different about that place or those people?" },
+        { "id": "WN5", "text": "What needs of yours went unspoken in the story you just told?" },
+        { "id": "WN6", "text": "Whose approval are you seeking in this — and do you actually want their approval, or does it just feel necessary?" },
+        { "id": "WN7", "text": "If you didn't have to manage anyone's feelings in this situation, what would you have done differently?" },
+        { "id": "WN8", "text": "What would it mean to just exist in this moment without performing anything?" }
+      ]
+    },
+    "jung": {
+      "id": "jung",
+      "name": "Carl Jung",
+      "emoji": "🌀",
+      "tagline": "What you can't face in yourself, you'll meet in everyone else.",
+      "colors": {
+        "bg": "#FDF3E3",
+        "text": "#4A3728",
+        "accent": "#8B6914"
+      },
+      "intro": "Jung would be interested in what you're projecting, what symbols keep appearing, and what you're drawn to and repelled by in equal measure. He believed the things we judge most harshly in others are often the things we haven't yet claimed in ourselves.",
+      "questions": [
+        { "id": "JU1", "text": "The person or situation you're frustrated by — what quality in them might also live in you, somewhere?" },
+        { "id": "JU2", "text": "What keeps drawing you back to this feeling, this person, or this place?" },
+        { "id": "JU3", "text": "If the emotion you described were a figure in a dream, what would it look like?" },
+        { "id": "JU4", "text": "What are you refusing to integrate about yourself right now?" },
+        { "id": "JU5", "text": "You seem both drawn to and repelled by something here. What does that tension tell you?" },
+        { "id": "JU6", "text": "What is the story beneath the story you just told?" },
+        { "id": "JU7", "text": "If your life had a recurring symbol right now — an image, a dream, a pattern — what would it be?" },
+        { "id": "JU8", "text": "What part of yourself have you been keeping in the dark because you're not sure what it wants?" }
+      ]
+    },
+    "klein": {
+      "id": "klein",
+      "name": "Melanie Klein",
+      "emoji": "💜",
+      "tagline": "Love and resentment toward the same person is not a contradiction. It's the truth.",
+      "colors": {
+        "bg": "#F8E8F8",
+        "text": "#6B2D6B",
+        "accent": "#9B59B6"
+      },
+      "intro": "Klein would sit with the full complexity of your feelings toward the people you love — the love and the resentment, the gratitude and the envy. She believed that the capacity to hold contradictory feelings about the same person is actually a sign of emotional maturity.",
+      "questions": [
+        { "id": "KL1", "text": "You seem to feel both care and resentment toward this person. Can you hold both of those truths at the same time without resolving them?" },
+        { "id": "KL2", "text": "When they disappointed you, did they fall from somewhere — from a version of them you had built up?" },
+        { "id": "KL3", "text": "What do you envy about them, even a little? It's okay to say it." },
+        { "id": "KL4", "text": "When this person is genuinely good to you, can you let yourself feel that fully? Or does something get in the way?" },
+        { "id": "KL5", "text": "Do you find it easier when people are all-good or all-bad in your mind? What happens to your feelings when they're both?" },
+        { "id": "KL6", "text": "What would it mean to accept that someone can hurt you and love you, and neither cancels the other out?" },
+        { "id": "KL7", "text": "Who in your earliest life does this person remind you of, even slightly?" },
+        { "id": "KL8", "text": "What are you most afraid would happen if you expressed both your love and your anger toward this person fully?" }
+      ]
+    },
+    "lacan": {
+      "id": "lacan",
+      "name": "Jacques Lacan",
+      "emoji": "🔮",
+      "tagline": "The thing you want most is probably not the thing you're asking for.",
+      "colors": {
+        "bg": "#E8F0F8",
+        "text": "#1A3A5C",
+        "accent": "#2E6DA4"
+      },
+      "intro": "Lacan would be interested in the gap — the place between what you say you want and what you're actually reaching for. He believed that desire is never really about the thing itself. Something always slips away in the language. He wants to know what you can't quite say.",
+      "questions": [
+        { "id": "LA1", "text": "You got what you thought you wanted — or you're close to it. Why isn't it enough?" },
+        { "id": "LA2", "text": "What are you really asking for when you ask for this?" },
+        { "id": "LA3", "text": "This want you're describing — is it actually yours, or did you inherit it from somewhere?" },
+        { "id": "LA4", "text": "When you try to put this feeling into words, something slips away. What's the thing you can't quite say?" },
+        { "id": "LA5", "text": "Who do you become in this relationship or situation — and is that who you actually want to be?" },
+        { "id": "LA6", "text": "What do you keep reaching for that never quite satisfies, even when you get it?" },
+        { "id": "LA7", "text": "If the absence you're feeling had a shape or a name, what would it be?" },
+        { "id": "LA8", "text": "What would it mean to stop wanting this — and why does that possibility feel like a kind of loss?" }
+      ]
+    }
+  }
+}
