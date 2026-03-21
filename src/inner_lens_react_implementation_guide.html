@@ -1,0 +1,170 @@
+# Inner Lens × Mom Words Matter™: React Implementation Guide
+
+This document provides a modular React structure for the **Inner Lens** experience. It utilizes **Tailwind CSS** for styling and **Framer Motion** for the smooth, atmospheric transitions required for the philosopher color shifts.
+
+---
+
+## 1. The Dynamic Theme Provider
+The core of the experience is the `ThemeProvider`, which manages the `--bg`, `--text-primary`, and `--accent` CSS variables based on the active philosopher.
+
+```jsx
+import React, { createContext, useContext, useState, useEffect } from 'react';
+
+const themes = {
+  brand: { bg: '#F5F1EA', text: '#4A4541', heading: '#6B7B6A', accent: '#D8A7A0', premium: '#C8A96A', depth: '#2F3A34' },
+  freud: { bg: '#F5EDE8', text: '#6B4C3B', accent: '#A0522D' },
+  anna: { bg: '#EDF2F7', text: '#4A5568', accent: '#718096' },
+  winnicott: { bg: '#E8F5E9', text: '#2D6A4F', accent: '#40916C' },
+  jung: { bg: '#FDF3E3', text: '#4A3728', accent: '#8B6914' },
+  klein: { bg: '#F8E8F8', text: '#6B2D6B', accent: '#9B59B6' },
+  lacan: { bg: '#E8F0F8', text: '#1A3A5C', accent: '#2E6DA4' },
+};
+
+const ThemeContext = createContext();
+
+export const ThemeProvider = ({ children }) => {
+  const [philosopher, setPhilosopher] = useState('brand');
+
+  useEffect(() => {
+    const root = document.documentElement;
+    const theme = themes[philosopher] || themes.brand;
+    root.style.setProperty('--bg', theme.bg);
+    root.style.setProperty('--text-primary', theme.text);
+    root.style.setProperty('--accent', theme.accent);
+  }, [philosopher]);
+
+  return (
+    <ThemeContext.Provider value={{ philosopher, setPhilosopher }}>
+      <div className="min-h-screen transition-colors duration-1000 bg-[var(--bg)] text-[var(--text-primary)] font-serif">
+        {children}
+      </div>
+    </ThemeContext.Provider>
+  );
+};
+```
+
+---
+
+## 2. Shared Components
+These components ensure consistency across the 9 screens.
+
+### Header (Deep Forest Green)
+```jsx
+const Header = ({ historyCount = 0, onUpgrade }) => (
+  <header className="sticky top-0 z-50 bg-[#2F3A34] text-[#F5F1EA] px-6 py-4 flex justify-between items-center shadow-md">
+    <div className="flex items-center gap-2">
+      <span className="text-xl">🧠</span>
+      <h1 className="font-serif italic text-lg tracking-tight">Inner Lens</h1>
+    </div>
+    <div className="flex items-center gap-4">
+      <button className="flex items-center gap-1 opacity-90">
+        <span>📖</span>
+        <span className="text-sm">{historyCount}</span>
+      </button>
+      <button 
+        onClick={onUpgrade}
+        className="bg-[#C8A96A] text-[#2F3A34] px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm"
+      >
+        ✨ Deep Lens
+      </button>
+    </div>
+  </header>
+);
+```
+
+---
+
+## 3. Screen 4: Philosopher Reveal (The Core Shift)
+This screen demonstrates how the philosopher match triggers the immersive color shift.
+
+```jsx
+import { motion } from 'framer-motion';
+
+const PhilosopherReveal = ({ match }) => {
+  const { setPhilosopher } = useContext(ThemeContext);
+
+  useEffect(() => {
+    // Immersion trigger
+    setPhilosopher(match.id);
+  }, [match.id]);
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="p-8 max-w-md mx-auto"
+    >
+      {/* Philosopher Card */}
+      <div className="bg-[var(--bg)] border-l-4 border-[var(--accent)] p-6 rounded-r-xl shadow-sm mb-8">
+        <div className="text-3xl mb-2">{match.emoji}</div>
+        <h2 className="text-xl font-bold mb-1">{match.name}</h2>
+        <p className="text-sm italic opacity-70 mb-4">{match.tagline}</p>
+        <p className="text-md leading-relaxed mb-6">{match.intro}</p>
+        
+        <div className="pl-4 border-l-2 border-[var(--accent)] italic text-lg leading-relaxed">
+          "{match.question}"
+        </div>
+      </div>
+
+      {/* Reflection Area */}
+      <div className="space-y-4">
+        <label className="text-xs uppercase tracking-widest font-sans font-bold">Your Reflection</label>
+        <textarea 
+          placeholder="Sit with the question. Write whatever comes..."
+          className="w-full bg-white/50 border border-[var(--accent)]/20 rounded-lg p-4 focus:ring-1 focus:ring-[var(--accent)] outline-none min-h-[150px]"
+        />
+        <button className="w-full bg-[#2F3A34] text-white py-4 rounded-lg font-bold">
+          Save to journal ✓
+        </button>
+      </div>
+    </motion.div>
+  );
+};
+```
+
+---
+
+## 4. Screen 9: Pattern Dashboard (The Stained Glass Effect)
+Utilizing the philosopher palettes for data visualization.
+
+```jsx
+const Dashboard = ({ data }) => {
+  return (
+    <div className="p-6 space-y-10 pb-24">
+      <h1 className="text-3xl font-serif text-[#6B7B6A]">Your Patterns</h1>
+      
+      {/* Section 1: Your Thinkers */}
+      <section>
+        <h2 className="text-xs uppercase tracking-widest font-sans mb-4">Your Thinkers</h2>
+        <div className="flex h-8 rounded-full overflow-hidden shadow-inner">
+          {data.thinkers.map(t => (
+            <div 
+              key={t.id} 
+              style={{ width: `${t.percentage}%`, backgroundColor: themes[t.id].accent }}
+              className="h-full transition-all duration-1000"
+            />
+          ))}
+        </div>
+        <p className="mt-4 italic text-sm leading-relaxed opacity-80">
+          "You've been matched with Winnicott 6 out of 10 times this month..."
+        </p>
+      </section>
+
+      {/* Section 4: Deep Dive */}
+      <section className="bg-[#2F3A34] text-[#F5F1EA] p-8 rounded-2xl shadow-xl">
+        <h2 className="text-xl mb-4 italic">What does it mean that you keep visiting Winnicott?</h2>
+        <p className="leading-relaxed opacity-90">
+          Your frequent alignment suggests a period of significant focus on your "True Self"...
+        </p>
+      </section>
+    </div>
+  );
+};
+```
+
+---
+
+## Next Steps for Developers:
+1. **State Management:** Use a global state (Zustand or Redux) to track the current screen and user subscription status.
+2. **Persistence:** Use Firebase or Supabase to store journal entries and link them to philosopher IDs for the historical tinting.
+3. **AI Logic:** Integrate an LLM (like Gemini) to analyze the initial entry and return the philosopher ID and follow-up question.

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Inner Lens - Winnicott's Reflection</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,600;0,700;1,400;1,600&amp;family=Inter:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            /* Winnicott Theme Variables */
+            --winnicott-bg: #E8F5E9;
+            --winnicott-primary: #2D6A4F;
+            --winnicott-accent: #40916C;
+            --mwm-deep-forest: #2F3A34;
+            --mwm-cream: #F5F1EA;
+        }
+
+        body {
+            background-color: var(--winnicott-bg);
+            color: var(--winnicott-primary);
+            font-family: 'Newsreader', serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .reflection-card {
+            background-color: var(--winnicott-bg);
+            border: 1px solid var(--winnicott-accent);
+            border-radius: 1.125rem; /* 18px */
+        }
+
+        .reflection-text {
+            font-family: 'Georgia', 'Newsreader', serif;
+            line-height: 2.0;
+            font-style: italic;
+        }
+
+        .system-label {
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            letter-spacing: 0.1em;
+        }
+
+        /* Custom scrollbar for subtle appearance */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--winnicott-accent);
+            border-radius: 10px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary": "#2F3A34",
+                "on-primary": "#F5F1EA",
+                "surface": "#E8F5E9",
+                "outline-variant": "#40916C",
+              },
+              fontFamily: {
+                "headline": ["Newsreader", "serif"],
+                "body": ["Newsreader", "serif"],
+                "label": ["Inter", "sans-serif"]
+              },
+              borderRadius: {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+              },
+            },
+          },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen flex flex-col items-center selection:bg-primary-container selection:text-white">
+<!-- Header Suppression: Following the "Destination Rule", TopAppBar is omitted for this focused, task-specific reflection screen. -->
+<main class="flex-grow w-full max-w-2xl px-6 py-20 md:py-32 flex flex-col items-center justify-center animate-fade-in">
+<!-- Icon Anchor -->
+<div aria-label="Therapist Couch" class="mb-6 text-[36px] opacity-90" role="img">
+            🛋️
+        </div>
+<!-- Section Label -->
+<h2 class="system-label text-[11px] font-bold mb-10 text-center tracking-[0.2em] uppercase" style="color: var(--winnicott-primary);">
+            WINNICOTT'S REFLECTION
+        </h2>
+<!-- Main Insight Card -->
+<div class="reflection-card p-[28px] w-full shadow-[0_20px_50px_rgba(45,106,79,0.05)] relative overflow-hidden">
+<!-- Subtle Texture Overlay -->
+<div class="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')]" data-alt="Subtle paper fiber texture overlay"></div>
+<p class="reflection-text text-[18px] md:text-[20px] text-center" style="color: var(--winnicott-primary);">
+                "The 'true self' isn't something you find, it's something you stop hiding. Your writing suggests that your silence isn't an absence of thought, but a protective layer. Winnicott might say you've become a master of the 'false self' to keep others comfortable, but the cost is a quiet exhaustion. What would happen if you let the mask slip just a fraction today?"
+            </p>
+</div>
+<!-- Spacing for Breath -->
+<div class="h-16 md:h-24"></div>
+<!-- Primary Action -->
+<div class="w-full max-w-sm">
+<button class="w-full py-5 px-8 flex items-center justify-center gap-3 transition-all active:scale-95 duration-200 ease-in-out font-label font-medium tracking-wide" style="background-color: var(--mwm-deep-forest); color: var(--mwm-cream); border-radius: 0.375rem;">
+<span class="text-sm">Close session</span>
+<span class="material-symbols-outlined text-[18px]" data-icon="check">check</span>
+</button>
+</div>
+</main>
+<!-- Footer: Tonal shift from surface for clean separation -->
+<footer class="w-full py-12 px-8 mt-auto" style="background-color: rgba(45, 106, 79, 0.03);">
+<div class="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-center">
+<div class="font-serif italic text-sm" style="color: var(--mwm-deep-forest);">
+                Inner Lens
+            </div>
+<div class="flex gap-8 text-[11px] font-sans uppercase tracking-[0.1em]" style="color: var(--winnicott-accent);">
+<a class="hover:opacity-100 opacity-70 transition-opacity" href="#">Philosophy</a>
+<a class="hover:opacity-100 opacity-70 transition-opacity" href="#">Privacy</a>
+<a class="hover:opacity-100 opacity-70 transition-opacity" href="#">Terms</a>
+</div>
+<div class="font-sans text-[10px] tracking-wide opacity-50" style="color: var(--winnicott-primary);">
+                © Mom Words Matter™. All rights reserved.
+            </div>
+</div>
+</footer>
+<!-- Shell Suppression Check: 
+         This is a task-focused journey screen with a definitive end-state ("Close session"). 
+         Per the "Semantic Shell Mandate", navigation shells are suppressed to prioritize the focused canvas. 
+    -->
+<style>
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fade-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        
+        /* Typography overrides for premium feel */
+        .font-serif { font-family: 'Newsreader', serif; }
+        .font-sans { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+    </style>
+</body></html>

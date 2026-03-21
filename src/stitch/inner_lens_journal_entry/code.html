@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Inner Lens - Journal Entry</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "error": "#ba1a1a",
+              "primary-container": "#6b7b6a",
+              "on-primary-fixed-variant": "#3c4b3c",
+              "error-container": "#ffdad6",
+              "on-secondary-fixed-variant": "#613d38",
+              "on-tertiary-container": "#ffffff",
+              "on-surface": "#1c1c18",
+              "on-secondary-container": "#7b534e",
+              "surface-tint": "#536252",
+              "inverse-surface": "#31302c",
+              "primary-fixed-dim": "#bacbb8",
+              "on-primary-container": "#ffffff",
+              "tertiary-fixed-dim": "#e3c281",
+              "surface-container-high": "#ece8e1",
+              "tertiary-fixed": "#ffdf9f",
+              "surface-variant": "#e6e2db",
+              "tertiary-container": "#8e733a",
+              "on-secondary": "#ffffff",
+              "primary-fixed": "#d6e7d3",
+              "surface-container": "#f1ede6",
+              "on-tertiary-fixed": "#261a00",
+              "inverse-on-surface": "#f4f0e9",
+              "surface-bright": "#fdf9f2",
+              "outline": "#747872",
+              "secondary-fixed": "#ffdad5",
+              "surface-container-lowest": "#ffffff",
+              "on-primary-fixed": "#111f12",
+              "on-primary": "#ffffff",
+              "on-error-container": "#93000a",
+              "secondary-container": "#ffcbc4",
+              "inverse-primary": "#bacbb8",
+              "tertiary": "#735b24",
+              "on-background": "#1c1c18",
+              "background": "#fdf9f2",
+              "surface": "#fdf9f2",
+              "secondary": "#7c544f",
+              "surface-container-highest": "#e6e2db",
+              "on-tertiary": "#ffffff",
+              "secondary-fixed-dim": "#edbbb3",
+              "outline-variant": "#c4c8c0",
+              "on-error": "#ffffff",
+              "surface-container-low": "#f7f3ec",
+              "primary": "#536252",
+              "on-surface-variant": "#434842",
+              "surface-dim": "#dddad3",
+              "on-secondary-fixed": "#2f1310",
+              "on-tertiary-fixed-variant": "#5a430e"
+            },
+            fontFamily: {
+              "headline": ["Newsreader", "serif"],
+              "body": ["Newsreader", "serif"],
+              "label": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      textarea:focus {
+        outline: none;
+        box-shadow: none;
+      }
+      .custom-scroll::-webkit-scrollbar {
+        width: 4px;
+      }
+      .custom-scroll::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .custom-scroll::-webkit-scrollbar-thumb {
+        background: #c4c8c0;
+        border-radius: 10px;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface selection:bg-secondary-fixed">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#2F3A34] dark:bg-[#1A221E] shadow-sm dark:shadow-none flex justify-between items-center px-6 py-4 w-full backdrop-blur-md">
+<div class="text-xl font-serif text-[#F5F1EA] flex items-center gap-2 font-serif text-newsreader tracking-tight italic">
+<span class="material-symbols-outlined text-[#F5F1EA]">psychology</span>
+            Inner Lens
+        </div>
+<div class="flex items-center gap-4">
+<button class="flex items-center gap-1 text-[#F5F1EA]/80 hover:bg-white/10 transition-colors duration-300 px-3 py-1 rounded-full scale-95 duration-200 ease-in-out">
+<span class="material-symbols-outlined text-sm">menu_book</span>
+<span class="font-label text-xs font-medium uppercase tracking-wider">12</span>
+</button>
+<button class="text-[#C8A96A] font-bold font-label text-xs uppercase tracking-widest hover:bg-white/10 transition-colors duration-300 px-3 py-1 rounded-full scale-95 duration-200 ease-in-out">
+                Upgrade
+            </button>
+</div>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-2xl mx-auto min-h-screen flex flex-col">
+<!-- Section Header -->
+<div class="mb-12">
+<span class="font-label text-xs font-bold uppercase tracking-[0.2em] text-primary-container">
+                TODAY'S SESSION
+            </span>
+<h1 class="mt-4 text-3xl md:text-4xl leading-tight font-headline text-on-surface-variant">
+                What's been sitting with you today that you haven't said out loud yet?
+            </h1>
+</div>
+<!-- Journaling Area -->
+<div class="relative flex-grow flex flex-col group">
+<textarea class="w-full flex-grow bg-transparent border-none resize-none text-xl md:text-2xl leading-relaxed font-body text-on-surface-variant placeholder:text-outline-variant focus:ring-0 p-0" placeholder="Write freely... there are no wrong answers."></textarea>
+<div class="mt-4 flex justify-between items-center border-t border-outline-variant/20 pt-4">
+<div class="flex gap-2">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-secondary-fixed text-on-secondary-container font-label text-[10px] font-bold uppercase tracking-wider">
+                        Reflection Chip
+                    </span>
+</div>
+<span class="font-label text-[11px] uppercase tracking-widest text-outline">
+                    242 words
+                </span>
+</div>
+</div>
+<!-- Upgrade Banner -->
+<div class="mt-12 p-6 bg-surface-container-low border-l-4 border-secondary-fixed rounded-r-lg flex flex-col gap-2">
+<p class="font-label text-[11px] font-semibold text-primary uppercase tracking-wider">Plan Notice</p>
+<p class="text-on-surface-variant text-sm leading-relaxed">
+                Free plan: 1 session/day · <a class="text-secondary font-bold underline underline-offset-4 decoration-secondary/30 hover:decoration-secondary" href="#">Upgrade to Deep Lens</a> for AI insights &amp; unlimited sessions.
+            </p>
+</div>
+<!-- Thinker Grid -->
+<div class="mt-16 mb-12">
+<h3 class="font-label text-[10px] font-bold text-outline uppercase tracking-[0.2em] mb-6">EXPLORE PERSPECTIVES</h3>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+<!-- Thinker 1 -->
+<div class="p-4 bg-surface-container-lowest border-l-2 border-[#7c544f] shadow-sm hover:shadow-md transition-shadow">
+<span class="text-xl mb-2 block">🛋️</span>
+<p class="font-label text-[11px] font-bold text-on-surface uppercase tracking-tighter">Freud</p>
+<p class="font-body text-[13px] italic text-outline leading-snug">The Primal Self</p>
+</div>
+<!-- Thinker 2 -->
+<div class="p-4 bg-surface-container-lowest border-l-2 border-[#8e733a] shadow-sm hover:shadow-md transition-shadow">
+<span class="text-xl mb-2 block">🌌</span>
+<p class="font-label text-[11px] font-bold text-on-surface uppercase tracking-tighter">Jung</p>
+<p class="font-body text-[13px] italic text-outline leading-snug">The Collective</p>
+</div>
+<!-- Thinker 3 -->
+<div class="p-4 bg-surface-container-lowest border-l-2 border-[#536252] shadow-sm hover:shadow-md transition-shadow">
+<span class="text-xl mb-2 block">🌿</span>
+<p class="font-label text-[11px] font-bold text-on-surface uppercase tracking-tighter">Winnicott</p>
+<p class="font-body text-[13px] italic text-outline leading-snug">The Holding Space</p>
+</div>
+<!-- Thinker 4 -->
+<div class="p-4 bg-surface-container-lowest border-l-2 border-[#4A4541] shadow-sm hover:shadow-md transition-shadow">
+<span class="text-xl mb-2 block">🎭</span>
+<p class="font-label text-[11px] font-bold text-on-surface uppercase tracking-tighter">Lacan</p>
+<p class="font-body text-[13px] italic text-outline leading-snug">The Mirror Stage</p>
+</div>
+<!-- Thinker 5 -->
+<div class="p-4 bg-surface-container-lowest border-l-2 border-[#D8A7A0] shadow-sm hover:shadow-md transition-shadow">
+<span class="text-xl mb-2 block">🐚</span>
+<p class="font-label text-[11px] font-bold text-on-surface uppercase tracking-tighter">Klein</p>
+<p class="font-body text-[13px] italic text-outline leading-snug">Internal Objects</p>
+</div>
+<!-- Thinker 6 -->
+<div class="p-4 bg-surface-container-lowest border-l-2 border-[#C8A96A] shadow-sm hover:shadow-md transition-shadow">
+<span class="text-xl mb-2 block">🕯️</span>
+<p class="font-label text-[11px] font-bold text-on-surface uppercase tracking-tighter">Adler</p>
+<p class="font-body text-[13px] italic text-outline leading-snug">Social Interest</p>
+</div>
+</div>
+</div>
+<!-- Primary CTA -->
+<div class="sticky bottom-24 z-40">
+<button class="w-full py-4 bg-[#2F3A34] text-[#F5F1EA] rounded-lg shadow-lg flex items-center justify-center gap-2 hover:bg-[#1A221E] transition-all transform active:scale-95">
+<span class="font-label text-sm font-bold uppercase tracking-widest">Take me to the couch</span>
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 backdrop-blur-xl bg-[#FDF9F2]/85 dark:bg-[#121212]/85 shadow-[0_-4px_20px_rgba(74,69,65,0.08)] z-50">
+<a class="flex flex-col items-center justify-center text-[#536252] dark:text-[#C8A96A] font-bold bg-[#F1EDE6] dark:bg-[#2F3A34] rounded-full px-4 py-1 tap-highlight-transparent active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined">self_improvement</span>
+<span class="font-sans text-[11px] uppercase tracking-widest mt-1">Reflect</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#4A4541]/60 dark:text-white/40 hover:text-[#2F3A34] dark:hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined">local_library</span>
+<span class="font-sans text-[11px] uppercase tracking-widest mt-1">Library</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#4A4541]/60 dark:text-white/40 hover:text-[#2F3A34] dark:hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-sans text-[11px] uppercase tracking-widest mt-1">Insights</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#4A4541]/60 dark:text-white/40 hover:text-[#2F3A34] dark:hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-sans text-[11px] uppercase tracking-widest mt-1">Profile</span>
+</a>
+</nav>
+<!-- Footer -->
+<footer class="w-full mt-auto py-12 px-8 bg-[#F1EDE6] dark:bg-[#1A1A1A]">
+<div class="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-center">
+<div class="font-serif italic text-sm text-[#2F3A34] dark:text-[#F5F1EA]">Mom Words Matter™</div>
+<p class="font-sans text-xs tracking-wide leading-relaxed text-[#4A4541] dark:text-[#D1D1D1]">
+                Crisis Support: If you're in immediate danger, please contact local emergency services or a crisis hotline. 
+                <span class="block mt-1 font-bold">You are not alone.</span>
+</p>
+<div class="flex gap-4">
+<a class="font-sans text-xs tracking-wide opacity-70 hover:opacity-100 no-underline transition-opacity" href="#">Privacy</a>
+<a class="font-sans text-xs tracking-wide opacity-70 hover:opacity-100 no-underline transition-opacity" href="#">Philosophy</a>
+</div>
+<p class="font-sans text-xs tracking-wide text-[#4A4541] dark:text-[#D1D1D1] opacity-70">
+                © Mom Words Matter™. All rights reserved.
+            </p>
+</div>
+</footer>
+</body></html>

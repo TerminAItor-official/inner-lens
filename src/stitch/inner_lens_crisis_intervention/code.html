@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Inner Lens - Crisis Intervention</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "error": "#ba1a1a",
+                        "primary-container": "#6b7b6a",
+                        "on-primary-fixed-variant": "#3c4b3c",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#613d38",
+                        "on-tertiary-container": "#ffffff",
+                        "on-surface": "#1c1c18",
+                        "on-secondary-container": "#7b534e",
+                        "surface-tint": "#536252",
+                        "inverse-surface": "#31302c",
+                        "primary-fixed-dim": "#bacbb8",
+                        "on-primary-container": "#ffffff",
+                        "tertiary-fixed-dim": "#e3c281",
+                        "surface-container-high": "#ece8e1",
+                        "tertiary-fixed": "#ffdf9f",
+                        "surface-variant": "#e6e2db",
+                        "tertiary-container": "#8e733a",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#d6e7d3",
+                        "surface-container": "#f1ede6",
+                        "on-tertiary-fixed": "#261a00",
+                        "inverse-on-surface": "#f4f0e9",
+                        "surface-bright": "#fdf9f2",
+                        "outline": "#747872",
+                        "secondary-fixed": "#ffdad5",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed": "#111f12",
+                        "on-primary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "secondary-container": "#ffcbc4",
+                        "inverse-primary": "#bacbb8",
+                        "tertiary": "#735b24",
+                        "on-background": "#1c1c18",
+                        "background": "#fdf9f2",
+                        "surface": "#fdf9f2",
+                        "secondary": "#7c544f",
+                        "surface-container-highest": "#e6e2db",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#edbbb3",
+                        "outline-variant": "#c4c8c0",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#f7f3ec",
+                        "primary": "#536252",
+                        "on-surface-variant": "#434842",
+                        "surface-dim": "#dddad3",
+                        "on-secondary-fixed": "#2f1310",
+                        "on-tertiary-fixed-variant": "#5a430e"
+                    },
+                    fontFamily: {
+                        "headline": ["Newsreader", "serif"],
+                        "body": ["Newsreader", "serif"],
+                        "label": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #F5F1EA; /* Forced Brand Palette */
+            color: #4A4541; /* Charcoal Taupe Body */
+            font-family: 'Newsreader', serif; /* Georgia-like serif fallback */
+        }
+        .crisis-headline {
+            color: #6B7B6A; /* Deep Olive */
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen flex flex-col items-center justify-center p-6 md:p-12">
+<!-- Note: TopAppBar and BottomNavBar are suppressed per "The Destination Rule" for Transactional/Focused screens -->
+<main class="max-w-xl w-full mx-auto flex flex-col items-center text-center space-y-12">
+<!-- Empathy Section -->
+<div class="flex flex-col items-center space-y-6">
+<div aria-label="Heart Emoji" class="text-6xl md:text-7xl mb-2 drop-shadow-sm" role="img">💛</div>
+<h1 class="crisis-headline text-3xl md:text-5xl font-headline tracking-tight italic">
+                We hear you. You're not alone.
+            </h1>
+<p class="text-lg md:text-xl leading-relaxed max-w-md opacity-90 px-4">
+                It sounds like you might be going through something really difficult right now. Before we continue, we want to make sure you have the support you deserve.
+            </p>
+</div>
+<!-- Resources Section -->
+<div class="w-full space-y-6">
+<!-- Card 1: Suicide & Crisis Lifeline -->
+<div class="bg-surface-container-lowest p-8 rounded-xl border-2 transition-all duration-300" style="border-color: #C8A96A;"> <!-- Soft Gold Border -->
+<div class="flex flex-col items-center space-y-4">
+<span class="material-symbols-outlined text-3xl" style="color: #C8A96A;">support_agent</span>
+<h2 class="text-xl font-bold tracking-normal crisis-headline">988 Suicide &amp; Crisis Lifeline</h2>
+<p class="text-base">Call or text 988 — free, confidential, 24/7</p>
+<a class="inline-flex items-center gap-2 text-sm font-label uppercase tracking-widest text-primary border-b border-primary/20 pb-1 hover:border-primary transition-colors" href="https://988lifeline.org">
+                        Chat: 988lifeline.org
+                    </a>
+</div>
+</div>
+<!-- Card 2: Crisis Text Line -->
+<div class="bg-surface-container-lowest p-8 rounded-xl border-2 transition-all duration-300" style="border-color: #D8A7A0;"> <!-- Muted Rose Border -->
+<div class="flex flex-col items-center space-y-4">
+<span class="material-symbols-outlined text-3xl" style="color: #D8A7A0;">sms</span>
+<h2 class="text-xl font-bold tracking-normal crisis-headline">Crisis Text Line</h2>
+<p class="text-base">Text <span class="font-bold">HOME</span> to <span class="font-bold">741741</span></p>
+</div>
+</div>
+</div>
+<!-- Return Action -->
+<div class="pt-8">
+<button aria-label="Return to journal" class="flex items-center gap-3 text-[#4A4541] hover:opacity-70 transition-opacity italic text-lg">
+<span class="material-symbols-outlined text-sm">arrow_back</span>
+                Return to journal
+            </button>
+</div>
+</main>
+<!-- Footer Section (Manual Implementation for Consistency) -->
+<footer class="mt-auto py-12 px-8 w-full">
+<div class="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-center">
+<div class="font-headline italic text-sm crisis-headline">Inner Lens</div>
+<div class="font-label text-xs tracking-wide leading-relaxed opacity-60">
+                © Mom Words Matter™. All rights reserved.
+            </div>
+<nav class="flex gap-6 text-xs font-label uppercase tracking-tighter opacity-50">
+<a class="hover:opacity-100 transition-opacity" href="#">Privacy</a>
+<a class="hover:opacity-100 transition-opacity" href="#">Terms</a>
+<a class="hover:opacity-100 transition-opacity" href="#">Philosophy</a>
+</nav>
+</div>
+</footer>
+<!-- Decorative Soft Texture (Visual Anchor) -->
+<div class="fixed inset-0 pointer-events-none opacity-[0.03] z-[-1]" data-alt="Subtle paper fiber texture for tactile feel" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAbMjD-lGUST409QbZZ4loW1YCgBChPgkRTPq18zQCYzfEj7P0Mw41kLjDcaoanlvggR2zGxlUFexWkz6_AytNyOxcYnvT6Kpzu-bhFBUxA83sPp57do66a1aDBsethOsfRtZmgs2N-w9I7ZPjrHguMt4132ospCoxh3hnRcYdRh0lmHSVSRH6u849vyzYKfEyMG2nswEBNJPPb5WK_aKwcQm6Ex3ZEDh0qncmITOv3a6MY5-4314uoIASnTsX-Denv8oIGbJOaBFRo');">
+</div>
+</body></html>

@@ -42,7 +42,7 @@
     "anna_freud": {
       "id": "anna_freud",
       "name": "Anna Freud",
-      "emoji": "🪞",
+      "emoji": "🛡️",
       "tagline": "Understanding your feelings is not the same as feeling them.",
       "colors": {
         "bg": "#EDF2F7",
@@ -86,7 +86,7 @@
     "jung": {
       "id": "jung",
       "name": "Carl Jung",
-      "emoji": "🌀",
+      "emoji": "🌙",
       "tagline": "What you can't face in yourself, you'll meet in everyone else.",
       "colors": {
         "bg": "#FDF3E3",
@@ -108,7 +108,7 @@
     "klein": {
       "id": "klein",
       "name": "Melanie Klein",
-      "emoji": "💜",
+      "emoji": "🪞",
       "tagline": "Love and resentment toward the same person is not a contradiction. It's the truth.",
       "colors": {
         "bg": "#F8E8F8",

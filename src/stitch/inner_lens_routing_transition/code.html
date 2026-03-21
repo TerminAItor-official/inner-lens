@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Inner Lens - Reflection in Progress</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "error": "#ba1a1a",
+              "primary-container": "#6b7b6a",
+              "on-primary-fixed-variant": "#3c4b3c",
+              "error-container": "#ffdad6",
+              "on-secondary-fixed-variant": "#613d38",
+              "on-tertiary-container": "#ffffff",
+              "on-surface": "#1c1c18",
+              "on-secondary-container": "#7b534e",
+              "surface-tint": "#536252",
+              "inverse-surface": "#31302c",
+              "primary-fixed-dim": "#bacbb8",
+              "on-primary-container": "#ffffff",
+              "tertiary-fixed-dim": "#e3c281",
+              "surface-container-high": "#ece8e1",
+              "tertiary-fixed": "#ffdf9f",
+              "surface-variant": "#e6e2db",
+              "tertiary-container": "#8e733a",
+              "on-secondary": "#ffffff",
+              "primary-fixed": "#d6e7d3",
+              "surface-container": "#f1ede6",
+              "on-tertiary-fixed": "#261a00",
+              "inverse-on-surface": "#f4f0e9",
+              "surface-bright": "#fdf9f2",
+              "outline": "#747872",
+              "secondary-fixed": "#ffdad5",
+              "surface-container-lowest": "#ffffff",
+              "on-primary-fixed": "#111f12",
+              "on-primary": "#ffffff",
+              "on-error-container": "#93000a",
+              "secondary-container": "#ffcbc4",
+              "inverse-primary": "#bacbb8",
+              "tertiary": "#735b24",
+              "on-background": "#1c1c18",
+              "background": "#fdf9f2",
+              "surface": "#fdf9f2",
+              "secondary": "#7c544f",
+              "surface-container-highest": "#e6e2db",
+              "on-tertiary": "#ffffff",
+              "secondary-fixed-dim": "#edbbb3",
+              "outline-variant": "#c4c8c0",
+              "on-error": "#ffffff",
+              "surface-container-low": "#f7f3ec",
+              "primary": "#536252",
+              "on-surface-variant": "#434842",
+              "surface-dim": "#dddad3",
+              "on-secondary-fixed": "#2f1310",
+              "on-tertiary-fixed-variant": "#5a430e"
+            },
+            fontFamily: {
+              "headline": ["Newsreader", "serif"],
+              "body": ["Newsreader", "serif"],
+              "label": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        @keyframes pulse-organic {
+            0% { transform: scale(0.95); opacity: 0.3; }
+            50% { transform: scale(1.15); opacity: 0.15; }
+            100% { transform: scale(0.95); opacity: 0.3; }
+        }
+        
+        @keyframes message-fade {
+            0%, 100% { opacity: 0; transform: translateY(10px); }
+            10%, 90% { opacity: 1; transform: translateY(0); }
+        }
+
+        .pulse-circle {
+            animation: pulse-organic 6s ease-in-out infinite;
+            background: radial-gradient(circle, #D8A7A0 0%, transparent 70%);
+        }
+
+        /* Message Cycling via Animation Delays (3 messages x 4s = 12s cycle) */
+        .message-1 { animation: message-fade 12s infinite 0s; }
+        .message-2 { animation: message-fade 12s infinite 4s; opacity: 0; }
+        .message-3 { animation: message-fade 12s infinite 8s; opacity: 0; }
+
+        .transition-canvas {
+            background-color: #F5F1EA;
+            /* Subnormal tint toward Jungian parchment at high specificity */
+            background-image: radial-gradient(circle at center, rgba(253, 249, 242, 0.4) 0%, rgba(227, 194, 129, 0.05) 100%);
+        }
+        
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body selection:bg-secondary-container/30 overflow-hidden">
+<!-- TopAppBar - Suppressed text navigation per "Destination Rule" (Transactional/Linear) -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 py-4 bg-[#2F3A34] shadow-sm backdrop-blur-md">
+<div class="flex items-center gap-2 font-serif text-newsreader tracking-tight italic text-xl text-[#F5F1EA]">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+<span>Inner Lens</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-[#F5F1EA]/80 hover:bg-white/10 transition-colors duration-300 p-2 rounded-full">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+</button>
+</div>
+</header>
+<!-- Main Transition Canvas -->
+<main class="relative h-screen w-screen flex flex-col items-center justify-center transition-canvas">
+<!-- Organic Pulse Layer -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="pulse-circle w-[400px] h-[400px] md:w-[600px] md:h-[600px] rounded-full"></div>
+</div>
+<!-- Content Content Container -->
+<div class="relative z-10 text-center px-8">
+<!-- Iconography of Thought -->
+<div class="mb-12 text-primary opacity-40">
+<span class="material-symbols-outlined text-5xl" style="font-variation-settings: 'wght' 200;">auto_awesome</span>
+</div>
+<!-- Animated Messaging -->
+<div class="h-16 relative flex items-center justify-center">
+<h2 class="message-1 absolute text-2xl md:text-3xl font-serif italic text-primary-container tracking-tight leading-relaxed">
+                    Reading between your lines...
+                </h2>
+<h2 class="message-2 absolute text-2xl md:text-3xl font-serif italic text-primary-container tracking-tight leading-relaxed">
+                    Finding the right lens...
+                </h2>
+<h2 class="message-3 absolute text-2xl md:text-3xl font-serif italic text-primary-container tracking-tight leading-relaxed">
+                    Someone has a question for you...
+                </h2>
+</div>
+<!-- Editorial Subtext -->
+<p class="mt-12 font-label text-[11px] uppercase tracking-[0.2em] text-[#4A4541]/50">
+                Curating your clinical synthesis
+            </p>
+</div>
+<!-- Abstract Decorative Elements -->
+<div class="absolute bottom-16 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-b from-primary/20 to-transparent"></div>
+</main>
+<!-- Footer - Transactional Context Suppresses full footer, keeping only minimal anchor -->
+<footer class="fixed bottom-0 w-full py-8 px-8 text-center pointer-events-none">
+<p class="font-serif italic text-sm text-[#4A4541]/40">
+            Mom Words Matter™
+        </p>
+</footer>
+<!-- Image for Contextual Texture (Hidden) -->
+<img alt="Background texture" class="hidden" data-alt="Soft watercolor texture with warm ivory and sage tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJiRMurkRZc7n63maZpqr9XDOLb7MBceGVnw_cvjqgeuQnMF0qLAi8EwbX3gLjbpSoDasU-8OAc8t1U_VS_Jg1eF7guUi3q_k1FHMRQiLNPezEPbDEds5sl-yafXLiGwol21PinOVAPfF-p8Qo2w5ZtLv3Ohu2L9dst7Jg6avD3YSSSwuEHvzvz_GihLd1r0beWxdxh1sRVyZc0J_H46Jz5HXbBiCXTVx4aFPQeaHnWsGZln4DYGnB9iYSvDLVwrDs7CoLhuplyxv2"/>
+</body></html>

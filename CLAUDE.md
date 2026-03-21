@@ -6,7 +6,7 @@ This file tells Claude Code what this project is, how it's built, and how to wor
 
 An AI-powered psychoanalytic journaling app for Mom Words Matter™ (Keila's brand). Users write a journal entry, AI reads it and matches them to one of six psychoanalytic thinkers (Freud, Anna Freud, Winnicott, Jung, Klein, Lacan), and that thinker asks a deeper follow-up question. Paid users get an AI-generated reflection.
 
-All 6 thinkers are free. The paid tier ("Deep Lens" — $6/month) adds AI reflections, pattern dashboard, unlimited sessions, and export.
+All 6 thinkers are free. Free tier: 1 session per day. The paid tier ("Deep Lens" — $6/month or $49/year) adds AI reflections, pattern dashboard, unlimited sessions, and export.
 
 ## Tech Stack
 
@@ -53,6 +53,15 @@ SUPABASE_ANON_KEY=         # Database auth (Phase 2)
 STRIPE_SECRET_KEY=         # Payments (Phase 2)
 
 Store in .env.local — never commit this file.
+
+## Philosopher Emojis (source of truth)
+
+- Freud: 🛋️
+- Anna Freud: 🛡️
+- Winnicott: 🌱
+- Jung: 🌙
+- Klein: 🪞
+- Lacan: 🔮
 
 ## Brand Colors (Mom Words Matter™)
 
@@ -116,11 +125,26 @@ If entry contains crisis indicators (suicidal ideation, self-harm), skip philoso
 - Stitch prompts: 9 screens defined, ready to generate UI
 - Prototype code: exists from prior session (React with keyword routing — being replaced with AI routing)
 
+## Frontend Stack
+
+- **Build tool**: Vite + `@vitejs/plugin-react`
+- **Styling**: Tailwind CSS v3 with full MD3 token palette (see `tailwind.config.js`)
+- **Animations**: Framer Motion
+- **Fonts**: Newsreader (serif, all emotional content) + Inter (sans, UI labels only) + Material Symbols Outlined icons
+- **Stitch reference screens**: `src/stitch/` — HTML prototypes, do not edit
+- **React source**: `src/` (App.jsx, screens/, components/, context/)
+
+Screen state machine in `App.jsx`: `landing → journal → routing → reveal → ai_reflection` (or `crisis` on detection). No URL routing — single-page state machine.
+
+`ThemeProvider` in `src/context/ThemeContext.jsx` injects `--bg`, `--text-primary`, `--accent` CSS variables on `document.documentElement` when philosopher changes. 1-second CSS transition on body.
+
+"Destination Rule" (from design system): suppress Header and BottomNav on `routing`, `ai_reflection`, and `crisis` screens — these are focused, linear flows.
+
 ## What's Not Built Yet
 
-- [ ] Frontend (waiting on Stitch output)
-- [ ] API routes (next priority)
-- [ ] Supabase database + auth
-- [ ] Stripe payments
-- [ ] Vercel deployment
-- [ ] GitHub repo (local git only so far)
+- [ ] Supabase database + auth (Phase 2)
+- [ ] Stripe payments (Phase 2)
+- [ ] Pattern dashboard / Insights screen
+- [ ] JournalHistory populated from real data (shows empty state now)
+- [ ] Lens switcher pills on PhilosopherReveal (UI present, not wired)
+- [ ] Paid tier gating (isPaid stub in App.jsx — always false until auth)
