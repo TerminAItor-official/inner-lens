@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { ThemeProvider, useTheme } from './context/ThemeContext.jsx';
 import LandingPage from './screens/LandingPage.jsx';
 import JournalEntry from './screens/JournalEntry.jsx';
@@ -26,6 +26,9 @@ function InnerApp() {
   const isPaid = false;
 
   const goTo = useCallback((s) => setScreen(s), []);
+
+  // Scroll to top on every screen transition
+  useEffect(() => { window.scrollTo(0, 0); }, [screen]);
 
   const handleStartJournaling = useCallback(() => {
     setPhilosopher('brand');

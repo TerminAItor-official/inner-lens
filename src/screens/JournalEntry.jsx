@@ -18,8 +18,10 @@ const DAILY_PROMPTS = [
 ];
 
 function getDailyPrompt() {
-  const dayIndex = Math.floor(Date.now() / 86400000); // days since epoch
-  return DAILY_PROMPTS[dayIndex % DAILY_PROMPTS.length];
+  const now = new Date();
+  const startOfYear = new Date(now.getFullYear(), 0, 1);
+  const dayOfYear = Math.floor((now - startOfYear) / 86400000) + 1;
+  return DAILY_PROMPTS[dayOfYear % DAILY_PROMPTS.length];
 }
 
 // Short subtitle per philosopher for the compact grid cards
