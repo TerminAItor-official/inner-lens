@@ -11,12 +11,12 @@ import lacanImg      from '../assets/philosophers/lacan.jpg';
 import winnicottImg  from '../assets/philosophers/winnicott-placeholder.svg';
 
 const PORTRAITS = {
-  freud:       freudImg,
-  'anna-freud': annaFreudImg,
-  jung:        jungImg,
-  klein:       kleinImg,
-  lacan:       lacanImg,
-  winnicott:   winnicottImg,
+  freud:      freudImg,
+  anna_freud: annaFreudImg,
+  jung:       jungImg,
+  klein:      kleinImg,
+  lacan:      lacanImg,
+  winnicott:  winnicottImg,
 };
 
 const fadeIn = {

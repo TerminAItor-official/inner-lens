@@ -1,10 +1,16 @@
 import React from 'react';
 
-export default function Header({ historyCount = 0, onHistoryClick, onUpgradeClick, isPaid = false }) {
+export default function Header({ historyCount = 0, onHistoryClick, onUpgradeClick, onLogoClick, isPaid = false }) {
   return (
     <header className="fixed top-0 w-full z-50 bg-[#2F3A34] shadow-sm backdrop-blur-md">
       <div className="flex justify-between items-center px-6 py-4 w-full">
-        <div className="flex items-center gap-2 font-body text-[#F5F1EA] italic tracking-tight text-xl">
+        <div
+          className={`flex items-center gap-2 font-body text-[#F5F1EA] italic tracking-tight text-xl ${onLogoClick ? 'cursor-pointer hover:opacity-80 transition-opacity' : ''}`}
+          onClick={onLogoClick}
+          role={onLogoClick ? 'button' : undefined}
+          tabIndex={onLogoClick ? 0 : undefined}
+          onKeyDown={onLogoClick ? (e) => e.key === 'Enter' && onLogoClick() : undefined}
+        >
           <span className="material-symbols-outlined">psychology</span>
           Inner Lens
         </div>

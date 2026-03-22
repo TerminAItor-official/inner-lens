@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import philosophers from '../data/philosophers.js';
 
@@ -18,18 +18,52 @@ const cardCopy = {
   lacan:       { desc: 'Deconstruct the language of desire and how you see yourself reflected in the world.' },
 };
 
+const NAV_LINKS = [
+  { id: 'method',   label: 'The Method',  href: '#method'   },
+  { id: 'thinkers', label: 'The Council', href: '#thinkers' },
+  { id: 'pricing',  label: 'Pricing',     href: '#pricing'  },
+];
+
 export default function LandingPage({ onStartJournaling, onPhilosopherClick }) {
+  const [activeSection, setActiveSection] = useState(null);
+
+  const handleNavClick = (id, href) => {
+    setActiveSection(id);
+    const el = document.querySelector(href);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
   return (
     <motion.div className="font-body" {...fadeIn}>
 
       {/* ── Desktop nav (md+) ── */}
       <nav className="hidden md:flex fixed top-0 w-full z-50 bg-[#fdf9f2]/85 backdrop-blur-xl transition-all duration-300">
         <div className="flex justify-between items-center px-16 py-6 max-w-[1440px] mx-auto w-full">
-          <div className="text-2xl font-body italic text-[#4A4541]">Inner Lens</div>
+          <div
+            className="text-2xl font-body italic text-[#4A4541] cursor-pointer hover:opacity-70 transition-opacity"
+            onClick={scrollToTop}
+          >
+            Inner Lens
+          </div>
           <div className="flex space-x-12 items-center">
-            <a href="#method" className="text-[#536252] border-b-2 border-[#536252] pb-1 font-medium">The Method</a>
-            <a href="#thinkers" className="text-[#4A4541]/70 hover:text-[#536252] transition-colors">The Council</a>
-            <a href="#pricing" className="text-[#4A4541]/70 hover:text-[#536252] transition-colors">Pricing</a>
+            {NAV_LINKS.map(({ id, label, href }) => {
+              const active = activeSection === id;
+              return (
+                <button
+                  key={id}
+                  onClick={() => handleNavClick(id, href)}
+                  className={`pb-1 font-medium transition-colors ${
+                    active
+                      ? 'text-[#536252] border-b-2 border-[#536252]'
+                      : 'text-[#4A4541]/70 hover:text-[#536252] border-b-2 border-transparent'
+                  }`}
+                >
+                  {label}
+                </button>
+              );
+            })}
           </div>
           <div className="flex items-center space-x-6">
             <button
@@ -46,10 +80,13 @@ export default function LandingPage({ onStartJournaling, onPhilosopherClick }) {
       {/* ── Mobile nav ── */}
       <header className="md:hidden fixed top-0 w-full z-50 bg-[#2F3A34] shadow-sm">
         <div className="flex justify-between items-center px-6 py-4">
-          <div className="flex items-center gap-2 font-body text-[#F5F1EA] italic tracking-tight text-xl">
+          <button
+            className="flex items-center gap-2 font-body text-[#F5F1EA] italic tracking-tight text-xl hover:opacity-80 transition-opacity"
+            onClick={scrollToTop}
+          >
             <span className="material-symbols-outlined">psychology</span>
             Inner Lens
-          </div>
+          </button>
           <div className="flex items-center gap-3">
             <span className="material-symbols-outlined text-[#F5F1EA]">menu_book</span>
             <button

@@ -18,7 +18,8 @@
       "WebFetch(domain:commons.wikimedia.org)",
       "Bash(powershell -command \":*)",
       "Bash(powershell -command \"Invoke-WebRequest -Uri ''https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Anna_Freud_1957.jpg/330px-Anna_Freud_1957.jpg'' -OutFile ''C:\\\\Code\\\\inner-lens\\\\.claude\\\\worktrees\\\\loving-euler\\\\src\\\\assets\\\\philosophers\\\\anna-freud.jpg'' -UserAgent ''Mozilla/5.0''; Write-Host \\(''anna-freud.jpg: '' + \\(Get-Item ''C:\\\\Code\\\\inner-lens\\\\.claude\\\\worktrees\\\\loving-euler\\\\src\\\\assets\\\\philosophers\\\\anna-freud.jpg''\\).Length + '' bytes''\\)\")",
-      "Bash(powershell -command \"Invoke-WebRequest -Uri ''https://upload.wikimedia.org/wikipedia/commons/2/25/Jacques_Lacan_during_an_interview_1969.jpg'' -OutFile ''C:\\\\Code\\\\inner-lens\\\\.claude\\\\worktrees\\\\loving-euler\\\\src\\\\assets\\\\philosophers\\\\lacan.jpg'' -UserAgent ''Mozilla/5.0''; Write-Host \\(''lacan.jpg: '' + \\(Get-Item ''C:\\\\Code\\\\inner-lens\\\\.claude\\\\worktrees\\\\loving-euler\\\\src\\\\assets\\\\philosophers\\\\lacan.jpg''\\).Length + '' bytes''\\)\")"
+      "Bash(powershell -command \"Invoke-WebRequest -Uri ''https://upload.wikimedia.org/wikipedia/commons/2/25/Jacques_Lacan_during_an_interview_1969.jpg'' -OutFile ''C:\\\\Code\\\\inner-lens\\\\.claude\\\\worktrees\\\\loving-euler\\\\src\\\\assets\\\\philosophers\\\\lacan.jpg'' -UserAgent ''Mozilla/5.0''; Write-Host \\(''lacan.jpg: '' + \\(Get-Item ''C:\\\\Code\\\\inner-lens\\\\.claude\\\\worktrees\\\\loving-euler\\\\src\\\\assets\\\\philosophers\\\\lacan.jpg''\\).Length + '' bytes''\\)\")",
+      "Bash(powershell -command \"Get-ChildItem src/assets/philosophers | Select-Object Name, Length\")"
     ]
   }
 }

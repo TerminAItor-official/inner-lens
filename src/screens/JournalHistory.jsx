@@ -54,7 +54,7 @@ function EntryCard({ philosopher, date, excerpt, reflection, aiInsight }) {
   );
 }
 
-export default function JournalHistory({ onBack }) {
+export default function JournalHistory({ onBack, onTabChange }) {
   // Entries come from Supabase in Phase 2
   const entries = [];
 
@@ -126,7 +126,7 @@ export default function JournalHistory({ onBack }) {
         </div>
       </footer>
 
-      <BottomNav activeTab="library" onTabChange={() => {}} />
+      <BottomNav activeTab="library" onTabChange={onTabChange} />
     </motion.div>
   );
 }

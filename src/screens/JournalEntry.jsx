@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Header from '../components/Header.jsx';
 import BottomNav from '../components/BottomNav.jsx';
@@ -10,7 +10,17 @@ const fadeIn = {
   transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] },
 };
 
-const FALLBACK_PROMPT = { id: 'O01', text: "What's been sitting with you lately that you haven't said out loud?" };
+// Daily rotating prompts — one per day based on UTC date
+const DAILY_PROMPTS = [
+  "What's been sitting with you that you haven't said out loud?",
+  "At the end of today, what won't you regret?",
+  "What keeps showing up that you keep ignoring?",
+];
+
+function getDailyPrompt() {
+  const dayIndex = Math.floor(Date.now() / 86400000); // days since epoch
+  return DAILY_PROMPTS[dayIndex % DAILY_PROMPTS.length];
+}
 
 // Short subtitle per philosopher for the compact grid cards
 const subtitles = {
@@ -22,17 +32,10 @@ const subtitles = {
   lacan:      'The Mirror Stage',
 };
 
-export default function JournalEntry({ onSubmit, onHistoryClick, isPaid, onPhilosopherClick }) {
-  const [prompt, setPrompt] = useState(FALLBACK_PROMPT);
+export default function JournalEntry({ onSubmit, onHistoryClick, isPaid, onPhilosopherClick, onTabChange, onLogoClick }) {
+  const [prompt] = useState(getDailyPrompt);
   const [text, setText] = useState('');
   const [submitting, setSubmitting] = useState(false);
-
-  useEffect(() => {
-    fetch('/api/get-prompt')
-      .then(r => r.json())
-      .then(setPrompt)
-      .catch(() => setPrompt(FALLBACK_PROMPT));
-  }, []);
 
   const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0;
 
@@ -45,7 +48,7 @@ export default function JournalEntry({ onSubmit, onHistoryClick, isPaid, onPhilo
 
   return (
     <motion.div className="min-h-screen pb-32 font-body" {...fadeIn}>
-      <Header onHistoryClick={onHistoryClick} isPaid={isPaid} />
+      <Header onHistoryClick={onHistoryClick} isPaid={isPaid} onLogoClick={onLogoClick} />
 
       <main className="pt-24 pb-32 px-6 max-w-2xl mx-auto min-h-screen flex flex-col">
 
@@ -55,7 +58,7 @@ export default function JournalEntry({ onSubmit, onHistoryClick, isPaid, onPhilo
             Today's Session
           </span>
           <h1 className="mt-4 text-3xl md:text-4xl leading-tight font-headline text-[#434842]">
-            {prompt.text}
+            {prompt}
           </h1>
         </div>
 
@@ -131,7 +134,7 @@ export default function JournalEntry({ onSubmit, onHistoryClick, isPaid, onPhilo
         </div>
       </main>
 
-      <BottomNav activeTab="reflect" onTabChange={() => {}} />
+      <BottomNav activeTab="reflect" onTabChange={onTabChange} />
     </motion.div>
   );
 }

@@ -8,6 +8,8 @@ import AIReflection from './screens/AIReflection.jsx';
 import CrisisIntervention from './screens/CrisisIntervention.jsx';
 import JournalHistory from './screens/JournalHistory.jsx';
 import PhilosopherProfile from './screens/PhilosopherProfile.jsx';
+import InsightsScreen from './screens/InsightsScreen.jsx';
+import ProfileScreen from './screens/ProfileScreen.jsx';
 
 function InnerApp() {
   const { setPhilosopher } = useTheme();
@@ -47,6 +49,22 @@ function InnerApp() {
     setSelectedPhilosopher(null);
     goTo(profileOrigin);
   }, [setPhilosopher, goTo, profileOrigin]);
+
+  const handleLogoClick = useCallback(() => {
+    setPhilosopher('brand');
+    goTo('landing');
+  }, [setPhilosopher, goTo]);
+
+  const handleTabChange = useCallback((tab) => {
+    const tabToScreen = {
+      reflect:  'journal',
+      library:  'history',
+      insights: 'insights',
+      profile:  'profile',
+    };
+    const target = tabToScreen[tab];
+    if (target) goTo(target);
+  }, [goTo]);
 
   const handleSubmitEntry = useCallback(async (entryText) => {
     setEntry(entryText);
@@ -142,6 +160,8 @@ function InnerApp() {
         onHistoryClick={() => goTo('history')}
         isPaid={isPaid}
         onPhilosopherClick={handlePhilosopherClick}
+        onTabChange={handleTabChange}
+        onLogoClick={handleLogoClick}
       />
     ),
     routing: <RoutingTransition />,
@@ -163,7 +183,26 @@ function InnerApp() {
       />
     ),
     crisis: <CrisisIntervention onReturn={() => goTo('journal')} />,
-    history: <JournalHistory onBack={() => goTo('journal')} />,
+    history: (
+      <JournalHistory
+        onBack={() => goTo('journal')}
+        onTabChange={handleTabChange}
+      />
+    ),
+    insights: (
+      <InsightsScreen
+        isPaid={isPaid}
+        onTabChange={handleTabChange}
+        onUpgradeClick={() => goTo('landing')}
+      />
+    ),
+    profile: (
+      <ProfileScreen
+        isPaid={isPaid}
+        onTabChange={handleTabChange}
+        onUpgradeClick={() => goTo('landing')}
+      />
+    ),
   };
 
   return (
