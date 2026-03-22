@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { ThemeProvider, useTheme } from './context/ThemeContext.jsx';
 import LandingPage from './screens/LandingPage.jsx';
 import JournalEntry from './screens/JournalEntry.jsx';
@@ -27,8 +27,23 @@ function InnerApp() {
 
   const goTo = useCallback((s) => setScreen(s), []);
 
-  // Scroll to top on every screen transition
-  useEffect(() => { window.scrollTo(0, 0); }, [screen]);
+  // Target selector to scroll to after the next screen transition.
+  // If null, default to top-of-page.
+  const scrollTargetRef = useRef(null);
+
+  useEffect(() => {
+    const selector = scrollTargetRef.current;
+    scrollTargetRef.current = null; // consume immediately
+
+    if (selector) {
+      const el = document.querySelector(selector);
+      if (el) {
+        el.scrollIntoView({ behavior: 'instant' });
+        return;
+      }
+    }
+    window.scrollTo(0, 0);
+  }, [screen]);
 
   const handleStartJournaling = useCallback(() => {
     setPhilosopher('brand');
@@ -50,6 +65,8 @@ function InnerApp() {
   const handleBackFromProfile = useCallback(() => {
     setPhilosopher('brand');
     setSelectedPhilosopher(null);
+    // Return to the philosopher grid, not the top of the page
+    if (profileOrigin === 'landing') scrollTargetRef.current = '#thinkers';
     goTo(profileOrigin);
   }, [setPhilosopher, goTo, profileOrigin]);
 
