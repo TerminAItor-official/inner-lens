@@ -24,15 +24,6 @@ function getDailyPrompt() {
   return DAILY_PROMPTS[dayOfYear % DAILY_PROMPTS.length];
 }
 
-// Short subtitle per philosopher for the compact grid cards
-const subtitles = {
-  freud:      'The Primal Self',
-  anna_freud: 'Defense Mechanisms',
-  winnicott:  'The Holding Space',
-  jung:       'The Collective',
-  klein:      'Internal Objects',
-  lacan:      'The Mirror Stage',
-};
 
 export default function JournalEntry({ onSubmit, onHistoryClick, isPaid, onPhilosopherClick, onTabChange, onLogoClick }) {
   const [prompt] = useState(getDailyPrompt);
@@ -106,7 +97,7 @@ export default function JournalEntry({ onSubmit, onHistoryClick, isPaid, onPhilo
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             {philosophers.map((philosopher) => {
-              const { emoji, shortName, accent, key } = philosopher;
+              const { emoji, shortName, tag, accent, key } = philosopher;
               return (
                 <button
                   key={key}
@@ -116,7 +107,7 @@ export default function JournalEntry({ onSubmit, onHistoryClick, isPaid, onPhilo
                 >
                   <span className="text-xl mb-2 block">{emoji}</span>
                   <p className="font-label text-[11px] font-bold text-[#1c1c18] uppercase tracking-tighter">{shortName}</p>
-                  <p className="font-body text-[13px] italic text-[#747872] leading-snug">{subtitles[key]}</p>
+                  <p className="font-body text-[13px] italic text-[#747872] leading-snug">{tag}</p>
                 </button>
               );
             })}
