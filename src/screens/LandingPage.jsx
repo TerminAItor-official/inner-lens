@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import philosophers from '../data/philosophers.js';
 
 const fadeIn = {
   initial: { opacity: 0, y: 16 },
@@ -7,16 +8,17 @@ const fadeIn = {
   transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
 };
 
-const philosophers = [
-  { emoji: '🛋️', name: 'Sigmund Freud',   tag: 'The Primal',               desc: 'Uncover the latent meanings behind your daily frustrations through psychoanalytic dreamwork.',    accent: '#A0522D' },
-  { emoji: '🛡️', name: 'Anna Freud',       tag: 'Defense Mechanisms',       desc: "Identify the ego's protective layers and how they influence your current interpersonal dynamics.", accent: '#718096' },
-  { emoji: '🌱', name: 'D.W. Winnicott',   tag: 'The Holding Environment',  desc: 'Explore the concept of the "Good Enough" self and the healing power of creative play.',          accent: '#40916C' },
-  { emoji: '🌙', name: 'Carl Jung',         tag: 'Archetypes',               desc: 'Map your Shadow self and the collective unconscious patterns manifesting in your life.',            accent: '#8B6914' },
-  { emoji: '🪞', name: 'Melanie Klein',     tag: 'Object Relations',         desc: 'Examine the formative split between love and anger in your earliest memories.',                    accent: '#9B59B6' },
-  { emoji: '🔮', name: 'Jacques Lacan',     tag: 'The Mirror Stage',         desc: 'Deconstruct the language of desire and how you see yourself reflected in the world.',              accent: '#2E6DA4' },
-];
+// Landing-page card copy (tagline + short desc per philosopher)
+const cardCopy = {
+  freud:       { desc: 'Uncover the latent meanings behind your daily frustrations through psychoanalytic dreamwork.' },
+  anna_freud:  { desc: "Identify the ego's protective layers and how they influence your current interpersonal dynamics." },
+  winnicott:   { desc: 'Explore the concept of the "Good Enough" self and the healing power of creative play.' },
+  jung:        { desc: 'Map your Shadow self and the collective unconscious patterns manifesting in your life.' },
+  klein:       { desc: 'Examine the formative split between love and anger in your earliest memories.' },
+  lacan:       { desc: 'Deconstruct the language of desire and how you see yourself reflected in the world.' },
+};
 
-export default function LandingPage({ onStartJournaling }) {
+export default function LandingPage({ onStartJournaling, onPhilosopherClick }) {
   return (
     <motion.div className="font-body" {...fadeIn}>
 
@@ -114,26 +116,31 @@ export default function LandingPage({ onStartJournaling }) {
             <span className="font-label text-[10px] uppercase tracking-widest text-[#747872]">All 6 free</span>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {philosophers.map(({ emoji, name, tag, desc, accent }) => (
-              <div
-                key={name}
-                className="group bg-surface-container-lowest p-8 md:p-10 rounded-xl transition-all hover:-translate-y-1 cursor-pointer"
-                style={{ borderLeft: `3px solid ${accent}` }}
-              >
-                <div className="flex justify-between items-start mb-6">
-                  <div className="text-3xl">{emoji}</div>
-                  <span className="font-label text-[10px] tracking-widest uppercase px-3 py-1 bg-surface-container rounded-full text-[#434842]">
-                    {tag}
-                  </span>
-                </div>
-                <h3 className="text-xl md:text-2xl font-headline text-[#1c1c18] mb-3">{name}</h3>
-                <p className="font-body text-[#434842] leading-relaxed mb-4 opacity-70 text-sm md:text-base">{desc}</p>
-                <div
-                  className="h-px w-0 group-hover:w-full transition-all duration-500"
-                  style={{ backgroundColor: accent }}
-                />
-              </div>
-            ))}
+            {philosophers.map((philosopher) => {
+              const { emoji, name, tag, accent, key } = philosopher;
+              const { desc } = cardCopy[key];
+              return (
+                <button
+                  key={key}
+                  onClick={() => onPhilosopherClick(philosopher)}
+                  className="group bg-surface-container-lowest p-8 md:p-10 rounded-xl transition-all hover:-translate-y-1 cursor-pointer text-left w-full"
+                  style={{ borderLeft: `3px solid ${accent}` }}
+                >
+                  <div className="flex justify-between items-start mb-6">
+                    <div className="text-3xl">{emoji}</div>
+                    <span className="font-label text-[10px] tracking-widest uppercase px-3 py-1 bg-surface-container rounded-full text-[#434842]">
+                      {tag}
+                    </span>
+                  </div>
+                  <h3 className="text-xl md:text-2xl font-headline text-[#1c1c18] mb-3">{name}</h3>
+                  <p className="font-body text-[#434842] leading-relaxed mb-4 opacity-70 text-sm md:text-base">{desc}</p>
+                  <div
+                    className="h-px w-0 group-hover:w-full transition-all duration-500"
+                    style={{ backgroundColor: accent }}
+                  />
+                </button>
+              );
+            })}
           </div>
         </div>
       </section>

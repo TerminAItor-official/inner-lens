@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Header from '../components/Header.jsx';
 import BottomNav from '../components/BottomNav.jsx';
+import philosophers from '../data/philosophers.js';
 
 const fadeIn = {
   initial: { opacity: 0, y: 12 },
@@ -11,16 +12,17 @@ const fadeIn = {
 
 const FALLBACK_PROMPT = { id: 'O01', text: "What's been sitting with you lately that you haven't said out loud?" };
 
-const thinkers = [
-  { emoji: '🛋️', name: 'Freud',       subtitle: 'The Primal Self',     accent: '#A0522D' },
-  { emoji: '🛡️', name: 'Anna Freud',  subtitle: 'Defense Mechanisms',  accent: '#718096' },
-  { emoji: '🌱', name: 'Winnicott',   subtitle: 'The Holding Space',    accent: '#40916C' },
-  { emoji: '🌙', name: 'Jung',        subtitle: 'The Collective',       accent: '#8B6914' },
-  { emoji: '🪞', name: 'Klein',       subtitle: 'Internal Objects',     accent: '#9B59B6' },
-  { emoji: '🔮', name: 'Lacan',       subtitle: 'The Mirror Stage',     accent: '#2E6DA4' },
-];
+// Short subtitle per philosopher for the compact grid cards
+const subtitles = {
+  freud:      'The Primal Self',
+  anna_freud: 'Defense Mechanisms',
+  winnicott:  'The Holding Space',
+  jung:       'The Collective',
+  klein:      'Internal Objects',
+  lacan:      'The Mirror Stage',
+};
 
-export default function JournalEntry({ onSubmit, onHistoryClick, isPaid }) {
+export default function JournalEntry({ onSubmit, onHistoryClick, isPaid, onPhilosopherClick }) {
   const [prompt, setPrompt] = useState(FALLBACK_PROMPT);
   const [text, setText] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -98,17 +100,21 @@ export default function JournalEntry({ onSubmit, onHistoryClick, isPaid }) {
             Explore Perspectives
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-            {thinkers.map(({ emoji, name, subtitle, accent }) => (
-              <div
-                key={name}
-                className="p-4 bg-surface-container-lowest shadow-sm"
-                style={{ borderLeft: `2px solid ${accent}` }}
-              >
-                <span className="text-xl mb-2 block">{emoji}</span>
-                <p className="font-label text-[11px] font-bold text-[#1c1c18] uppercase tracking-tighter">{name}</p>
-                <p className="font-body text-[13px] italic text-[#747872] leading-snug">{subtitle}</p>
-              </div>
-            ))}
+            {philosophers.map((philosopher) => {
+              const { emoji, shortName, accent, key } = philosopher;
+              return (
+                <button
+                  key={key}
+                  onClick={() => onPhilosopherClick?.(philosopher)}
+                  className="p-4 bg-surface-container-lowest shadow-sm text-left hover:brightness-95 transition-all active:scale-[0.98]"
+                  style={{ borderLeft: `2px solid ${accent}` }}
+                >
+                  <span className="text-xl mb-2 block">{emoji}</span>
+                  <p className="font-label text-[11px] font-bold text-[#1c1c18] uppercase tracking-tighter">{shortName}</p>
+                  <p className="font-body text-[13px] italic text-[#747872] leading-snug">{subtitles[key]}</p>
+                </button>
+              );
+            })}
           </div>
         </div>
 

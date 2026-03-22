@@ -7,6 +7,7 @@ import PhilosopherReveal from './screens/PhilosopherReveal.jsx';
 import AIReflection from './screens/AIReflection.jsx';
 import CrisisIntervention from './screens/CrisisIntervention.jsx';
 import JournalHistory from './screens/JournalHistory.jsx';
+import PhilosopherProfile from './screens/PhilosopherProfile.jsx';
 
 function InnerApp() {
   const { setPhilosopher } = useTheme();
@@ -16,6 +17,8 @@ function InnerApp() {
   const [routingResult, setRoutingResult] = useState(null);
   const [aiReflection, setAiReflection] = useState(null);
   const [aiReflectionLoading, setAiReflectionLoading] = useState(false);
+  const [selectedPhilosopher, setSelectedPhilosopher] = useState(null);
+  const [profileOrigin, setProfileOrigin] = useState('landing');
 
   // Stub — wire to Supabase auth in Phase 2
   const isPaid = false;
@@ -26,6 +29,24 @@ function InnerApp() {
     setPhilosopher('brand');
     goTo('journal');
   }, [setPhilosopher, goTo]);
+
+  const handlePhilosopherClick = useCallback((philosopher) => {
+    setSelectedPhilosopher(philosopher);
+    setProfileOrigin(screen);
+    goTo('philosopher_profile');
+  }, [goTo, screen]);
+
+  const handleBeginWithPhilosopher = useCallback(() => {
+    setPhilosopher('brand');
+    setSelectedPhilosopher(null);
+    goTo('journal');
+  }, [setPhilosopher, goTo]);
+
+  const handleBackFromProfile = useCallback(() => {
+    setPhilosopher('brand');
+    setSelectedPhilosopher(null);
+    goTo(profileOrigin);
+  }, [setPhilosopher, goTo, profileOrigin]);
 
   const handleSubmitEntry = useCallback(async (entryText) => {
     setEntry(entryText);
@@ -103,13 +124,24 @@ function InnerApp() {
 
   const screens = {
     landing: (
-      <LandingPage onStartJournaling={handleStartJournaling} />
+      <LandingPage
+        onStartJournaling={handleStartJournaling}
+        onPhilosopherClick={handlePhilosopherClick}
+      />
     ),
+    philosopher_profile: selectedPhilosopher ? (
+      <PhilosopherProfile
+        philosopher={selectedPhilosopher}
+        onBegin={handleBeginWithPhilosopher}
+        onBack={handleBackFromProfile}
+      />
+    ) : null,
     journal: (
       <JournalEntry
         onSubmit={handleSubmitEntry}
         onHistoryClick={() => goTo('history')}
         isPaid={isPaid}
+        onPhilosopherClick={handlePhilosopherClick}
       />
     ),
     routing: <RoutingTransition />,
