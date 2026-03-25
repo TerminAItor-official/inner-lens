@@ -252,7 +252,7 @@ export default function JournalEntry({
         </div>
 
         {/* ── Submit CTA ── */}
-        <div className="sticky bottom-24 z-40">
+        <div className="mt-8">
           <button
             onClick={handleSubmit}
             disabled={!text.trim() || submitting}
