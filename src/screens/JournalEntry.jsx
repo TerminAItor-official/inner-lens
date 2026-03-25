@@ -68,7 +68,10 @@ export default function JournalEntry({
   const [submitting, setSubmitting] = useState(false);
 
   const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0;
-  const showStreakButton = streak >= 3 && !streakUsed;
+  // Button visible whenever it hasn't been tapped this session;
+  // unlocked (gold/glowing) only at 3+ consecutive days.
+  const showStreakButton = !streakUsed;
+  const streakUnlocked  = streak >= 3;
 
   // ── Handlers ────────────────────────────────────────────────────────────────
 
@@ -129,46 +132,64 @@ export default function JournalEntry({
             </motion.h1>
           </AnimatePresence>
 
-          {/* ── Streak question button ── */}
-          <AnimatePresence>
-            {showStreakButton && (
-              <motion.div
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -4 }}
-                transition={{ delay: 0.25, duration: 0.4 }}
-                className="mt-6"
-              >
-                <motion.button
-                  onClick={handleStreakQuestion}
-                  animate={{
-                    boxShadow: [
-                      '0 0 0px rgba(200, 169, 106, 0.0)',
-                      '0 0 18px rgba(200, 169, 106, 0.55)',
-                      '0 0 0px rgba(200, 169, 106, 0.0)',
-                    ],
-                  }}
-                  transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
-                  whileHover={{ scale: 1.02, brightness: 1.08 }}
-                  whileTap={{ scale: 0.97 }}
-                  className="flex items-center gap-2.5 px-5 py-3 rounded-xl border font-label text-xs font-bold uppercase tracking-widest transition-colors"
-                  style={{
-                    borderColor: '#C8A96A',
-                    color: '#8e6e2a',
-                    backgroundColor: '#FDF8EF',
-                  }}
+          {/* ── Streak question button ── always rendered; fades out only after tap ── */}
+          <div className="mt-6">
+            <AnimatePresence>
+              {!streakUsed && (
+                <motion.div
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -4 }}
+                  transition={{ delay: 0.25, duration: 0.4 }}
                 >
-                  <span
-                    className="material-symbols-outlined text-base"
-                    style={{ color: '#C8A96A', fontVariationSettings: "'FILL' 1" }}
+                  <motion.button
+                    onClick={streakUnlocked ? handleStreakQuestion : undefined}
+                    disabled={!streakUnlocked}
+                    animate={streakUnlocked ? {
+                      boxShadow: [
+                        '0 0 0px rgba(200, 169, 106, 0.0)',
+                        '0 0 18px rgba(200, 169, 106, 0.55)',
+                        '0 0 0px rgba(200, 169, 106, 0.0)',
+                      ],
+                    } : {}}
+                    transition={streakUnlocked
+                      ? { duration: 2.4, repeat: Infinity, ease: 'easeInOut' }
+                      : {}}
+                    whileHover={streakUnlocked ? { scale: 1.02 } : {}}
+                    whileTap={streakUnlocked ? { scale: 0.97 } : {}}
+                    className="flex items-center gap-2.5 px-5 py-3 rounded-xl border font-label text-xs font-bold uppercase tracking-widest transition-colors"
+                    style={streakUnlocked ? {
+                      borderColor: '#C8A96A',
+                      color: '#8e6e2a',
+                      backgroundColor: '#FDF8EF',
+                      cursor: 'pointer',
+                    } : {
+                      borderColor: '#D4D0CA',
+                      color: '#AEABA4',
+                      backgroundColor: '#F8F6F2',
+                      cursor: 'not-allowed',
+                    }}
                   >
-                    auto_awesome
-                  </span>
-                  Streak Question — dare to go deeper?
-                </motion.button>
-              </motion.div>
-            )}
-          </AnimatePresence>
+                    <span
+                      className="material-symbols-outlined text-base"
+                      style={{
+                        color: streakUnlocked ? '#C8A96A' : '#C8C4BC',
+                        fontVariationSettings: "'FILL' 1",
+                      }}
+                    >
+                      auto_awesome
+                    </span>
+                    Streak Question — dare to go deeper?
+                  </motion.button>
+                  {!streakUnlocked && (
+                    <p className="mt-1.5 font-label text-[10px] tracking-wider text-[#AEABA4]">
+                      Unlocks after a 3-day streak
+                    </p>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
 
         {/* ── Textarea ── */}
