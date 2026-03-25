@@ -29,90 +29,60 @@
     <circle cx="100" cy="100" r="100" fill="url(#hl)"/>
 
     <!--
-      Bust silhouette: dark warm umber, facing LEFT (classic profile / cameo).
-
-      Landmarks (x,y):
-        nose tip      ≈ (58, 73)
-        upper lip     ≈ (70, 89)
-        chin          ≈ (63, 106)
-        forehead      ≈ (78, 22)
-        crown         ≈ (102, 18)
-        back of head  ≈ (148, 58)
-        nape          ≈ (130, 148)
-        shoulder base ≈ (175, 200) and (28, 200)
+      Brain illustration — dark umber on warm sepia.
+      Cerebrum: two symmetrical lobes with a center dip, seated
+      on a short brain stem. Sulci drawn as warm-cream strokes.
     -->
-    <path fill="#2C1A0E"
-      d="
-        M 28,200
-        C 36,183 48,168 58,158
-        C 65,151 72,144 78,138
-        C 82,134 83,129 82,124
-        C 81,118 78,113 75,108
-        C 72,103 69,99  67,95
-        C 65,91  64,88  65,84
-        C 66,80  68,77  70,74
-        C 72,71  72,68  69,65
-        C 66,62  62,58  60,54
-        C 58,50  58,46  61,42
-        C 64,38  68,34  71,30
-        C 74,26  78,22  85,20
-        C 93,17  104,17 114,20
-        C 124,23 133,30 140,40
-        C 147,50 150,62 149,74
-        C 148,86 144,97 140,107
-        C 136,117 131,126 127,135
-        C 123,144 117,153 110,161
-        C 103,169 96,177  91,186
-        C 88,191 86,196  85,200
-        L 172,200
-        Z
-      "
-    />
+
+    <!-- Cerebrum outline -->
+    <path fill="#2C1A0E" d="
+      M 100,152
+      C 89,152 77,148 67,140
+      C 57,132 50,120 47,107
+      C 44,94  47,81  53,72
+      C 47,63  46,53  53,47
+      C 60,41  69,42  75,47
+      C 76,41  81,35  88,31
+      C 93,26  98,26  100,29
+      C 102,26 107,26 112,31
+      C 119,35 124,41 125,47
+      C 131,42 140,41 147,47
+      C 154,53 153,63 147,72
+      C 153,81 156,94 153,107
+      C 150,120 143,132 133,140
+      C 123,148 111,152 100,152
+      Z
+    "/>
+
+    <!-- Brain stem -->
+    <rect x="91" y="149" width="18" height="22" rx="7" fill="#2C1A0E"/>
 
     <!--
-      Jacket / collar suggestion: slightly lighter warm-brown trapezoid
-      below the chin line, giving the bust a clothed, formal look.
+      Sulci — warm cream strokes suggesting gyri folds.
+      Colour sampled from mid-background so they read as
+      recessed grooves, not surface marks.
     -->
-    <path fill="#3E2610" opacity="0.70"
-      d="
-        M 58,158
-        C 65,151 72,144 78,138
-        C 82,134 83,129 82,124
-        L 82,124
-        C 85,128 88,134 90,142
-        C 92,150 91,160 89,170
-        C 87,179 86,190 85,200
-        L 28,200
-        C 36,183 48,168 58,158
-        Z
-      "
-    />
 
-    <!--
-      Ear hint: small ellipse on the right side of the head,
-      barely differentiated from the silhouette.
-    -->
-    <ellipse cx="142" cy="80" rx="6" ry="9"
-             fill="#3A2210" opacity="0.60"/>
+    <!-- Longitudinal fissure (center divide) -->
+    <path fill="none" stroke="#C8AE84" stroke-width="2.5"
+          stroke-linecap="round" opacity="0.72"
+          d="M 100,30 C 99,68 99,112 100,150"/>
 
-    <!--
-      Hair mass: very slightly lighter than the silhouette over the
-      crown and back of head, suggesting short side-parted hair
-      without drawing individual strands.
-    -->
-    <path fill="#3E2814" opacity="0.50"
-      d="
-        M 85,20
-        C 95,17 106,17 116,20
-        C 126,23 135,30 141,40
-        C 147,50 150,62 149,74
-        L 144,72
-        C 145,61 142,50 137,41
-        C 131,32 122,26 112,22
-        C 102,18 91,19 81,22
-        Z
-      "
-    />
+    <!-- Left hemisphere: two curved sulci -->
+    <path fill="none" stroke="#C8AE84" stroke-width="2"
+          stroke-linecap="round" opacity="0.62"
+          d="M 73,58 C 69,72 66,87 65,102 C 64,115 66,127 70,136"/>
+    <path fill="none" stroke="#C8AE84" stroke-width="1.5"
+          stroke-linecap="round" opacity="0.50"
+          d="M 55,78 C 53,90 53,103 56,115"/>
+
+    <!-- Right hemisphere: mirror sulci -->
+    <path fill="none" stroke="#C8AE84" stroke-width="2"
+          stroke-linecap="round" opacity="0.62"
+          d="M 127,58 C 131,72 134,87 135,102 C 136,115 134,127 130,136"/>
+    <path fill="none" stroke="#C8AE84" stroke-width="1.5"
+          stroke-linecap="round" opacity="0.50"
+          d="M 145,78 C 147,90 147,103 144,115"/>
 
     <!-- Vignette overlay -->
     <circle cx="100" cy="100" r="100" fill="url(#vg)"/>
