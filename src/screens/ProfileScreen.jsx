@@ -14,7 +14,7 @@ const settingsItems = [
   { icon: 'lock',          label: 'Privacy & Data',  note: '' },
 ];
 
-export default function ProfileScreen({ onTabChange, onUpgradeClick, isPaid }) {
+export default function ProfileScreen({ onTabChange, onUpgradeClick, onPrivacyClick, isPaid }) {
   // Phase 2: pull from Supabase auth
   const displayName = 'Reflective Soul';
   const sessionCount = 0;
@@ -97,6 +97,7 @@ export default function ProfileScreen({ onTabChange, onUpgradeClick, isPaid }) {
           {settingsItems.map(({ icon, label, note }, i) => (
             <div
               key={label}
+              onClick={label === 'Privacy & Data' ? onPrivacyClick : undefined}
               className={`flex items-center justify-between px-6 py-5 bg-white/70 hover:bg-[#F5F1EA] transition-colors cursor-pointer ${i < settingsItems.length - 1 ? 'border-b border-[#c4c8c0]/20' : ''}`}
             >
               <div className="flex items-center gap-4">

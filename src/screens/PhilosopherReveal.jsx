@@ -15,7 +15,7 @@ const PHILOSOPHER_LABELS = {
   lacan:      'Lacan',
 };
 
-export default function PhilosopherReveal({ routingResult, entry, onSave, onBack, isPaid }) {
+export default function PhilosopherReveal({ routingResult, entry, onSave, onBack, isPaid, onUpgradeClick }) {
   const { philosopher: activePhilosopher } = useTheme();
   const [reflection, setReflection] = useState('');
   const [saving, setSaving] = useState(false);
@@ -97,10 +97,13 @@ export default function PhilosopherReveal({ routingResult, entry, onSave, onBack
               Your reflection
             </label>
             {!isPaid && (
-              <span className="text-[#C8A96A] font-label text-[11px] flex items-center gap-1">
+              <button
+                onClick={onUpgradeClick}
+                className="text-[#C8A96A] font-label text-[11px] flex items-center gap-1 hover:opacity-80 transition-opacity"
+              >
                 <span className="material-symbols-outlined text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
                 Upgrade to Deep Lens for AI insight
-              </span>
+              </button>
             )}
           </div>
           <textarea

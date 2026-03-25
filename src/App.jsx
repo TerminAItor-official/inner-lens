@@ -10,6 +10,8 @@ import JournalHistory from './screens/JournalHistory.jsx';
 import PhilosopherProfile from './screens/PhilosopherProfile.jsx';
 import InsightsScreen from './screens/InsightsScreen.jsx';
 import ProfileScreen from './screens/ProfileScreen.jsx';
+import UpgradeScreen from './screens/UpgradeScreen.jsx';
+import PrivacyScreen from './screens/PrivacyScreen.jsx';
 
 function InnerApp() {
   const { setPhilosopher } = useTheme();
@@ -21,11 +23,17 @@ function InnerApp() {
   const [aiReflectionLoading, setAiReflectionLoading] = useState(false);
   const [selectedPhilosopher, setSelectedPhilosopher] = useState(null);
   const [profileOrigin, setProfileOrigin] = useState('landing');
+  const [upgradeOrigin, setUpgradeOrigin] = useState('landing');
 
   // Stub — wire to Supabase auth in Phase 2
   const isPaid = false;
 
   const goTo = useCallback((s) => setScreen(s), []);
+
+  const handleUpgradeClick = useCallback(() => {
+    setUpgradeOrigin(screen);
+    goTo('upgrade');
+  }, [screen, goTo]);
 
   // Target selector to scroll to after the next screen transition.
   // If null, default to top-of-page.
@@ -165,6 +173,7 @@ function InnerApp() {
       <LandingPage
         onStartJournaling={handleStartJournaling}
         onPhilosopherClick={handlePhilosopherClick}
+        onUpgradeClick={handleUpgradeClick}
       />
     ),
     philosopher_profile: selectedPhilosopher ? (
@@ -182,6 +191,7 @@ function InnerApp() {
         onPhilosopherClick={handlePhilosopherClick}
         onTabChange={handleTabChange}
         onLogoClick={handleLogoClick}
+        onUpgradeClick={handleUpgradeClick}
       />
     ),
     routing: <RoutingTransition />,
@@ -192,6 +202,7 @@ function InnerApp() {
         onSave={handleSaveReflection}
         onBack={handleBackFromReveal}
         isPaid={isPaid}
+        onUpgradeClick={handleUpgradeClick}
       />
     ) : null,
     ai_reflection: (
@@ -213,16 +224,19 @@ function InnerApp() {
       <InsightsScreen
         isPaid={isPaid}
         onTabChange={handleTabChange}
-        onUpgradeClick={() => goTo('landing')}
+        onUpgradeClick={handleUpgradeClick}
       />
     ),
     profile: (
       <ProfileScreen
         isPaid={isPaid}
         onTabChange={handleTabChange}
-        onUpgradeClick={() => goTo('landing')}
+        onUpgradeClick={handleUpgradeClick}
+        onPrivacyClick={() => goTo('privacy')}
       />
     ),
+    upgrade: <UpgradeScreen onBack={() => goTo(upgradeOrigin)} />,
+    privacy: <PrivacyScreen onBack={() => goTo('profile')} />,
   };
 
   return (

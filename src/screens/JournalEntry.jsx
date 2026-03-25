@@ -52,6 +52,7 @@ export default function JournalEntry({
   onPhilosopherClick,
   onTabChange,
   onLogoClick,
+  onUpgradeClick,
 }) {
   // Prompt state — mutable so streak question can replace it
   const [prompt, setPrompt]         = useState(getDailyPrompt);
@@ -219,7 +220,10 @@ export default function JournalEntry({
             <p className="font-label text-[11px] font-semibold text-[#536252] uppercase tracking-wider mb-1">Free Plan</p>
             <p className="text-[#434842] text-sm leading-relaxed">
               1 session per day ·{' '}
-              <button className="text-[#7c544f] font-bold underline underline-offset-4 decoration-[#7c544f]/30 hover:decoration-[#7c544f]">
+              <button
+                onClick={onUpgradeClick}
+                className="text-[#7c544f] font-bold underline underline-offset-4 decoration-[#7c544f]/30 hover:decoration-[#7c544f]"
+              >
                 Upgrade to Deep Lens
               </button>{' '}
               for AI reflections &amp; unlimited sessions.

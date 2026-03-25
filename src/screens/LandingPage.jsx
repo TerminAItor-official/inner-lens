@@ -24,7 +24,7 @@ const NAV_LINKS = [
   { id: 'pricing',  label: 'Pricing',     href: '#pricing'  },
 ];
 
-export default function LandingPage({ onStartJournaling, onPhilosopherClick }) {
+export default function LandingPage({ onStartJournaling, onPhilosopherClick, onUpgradeClick }) {
   const [activeSection, setActiveSection] = useState(null);
 
   const handleNavClick = (id, href) => {
@@ -271,7 +271,10 @@ export default function LandingPage({ onStartJournaling, onPhilosopherClick }) {
                   ))}
                 </ul>
               </div>
-              <button className="w-full py-4 bg-[#536252] text-white font-label text-xs font-bold tracking-widest uppercase hover:bg-[#6b7b6a] transition-all shadow-md">
+              <button
+                onClick={onUpgradeClick}
+                className="w-full py-4 bg-[#536252] text-white font-label text-xs font-bold tracking-widest uppercase hover:bg-[#6b7b6a] transition-all shadow-md"
+              >
                 Start 14-Day Deep Trial
               </button>
             </div>
