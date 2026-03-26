@@ -24,7 +24,7 @@ const NAV_LINKS = [
   { id: 'pricing',  label: 'Pricing',     href: '#pricing'  },
 ];
 
-export default function LandingPage({ onStartJournaling, onPhilosopherClick, onUpgradeClick }) {
+export default function LandingPage({ onStartJournaling, onPhilosopherClick, onUpgradeClick, onEnClick }) {
   const [activeSection, setActiveSection] = useState(null);
 
   const handleNavClick = (id, href) => {
@@ -305,6 +305,22 @@ export default function LandingPage({ onStartJournaling, onPhilosopherClick, onU
               <a href="#" className="hover:opacity-100 transition-opacity">Privacy</a>
               <a href="#" className="hover:opacity-100 transition-opacity">Terms</a>
               <a href="#" className="hover:opacity-100 transition-opacity">Philosophy</a>
+            </div>
+            <div className="flex gap-6 font-label text-xs tracking-wide text-[#4A4541]/60 pt-1">
+              <a
+                href="https://momwordsmatter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:opacity-100 transition-opacity hover:text-[#6B7B6A]"
+              >
+                🇧🇷 Para Português
+              </a>
+              <button
+                onClick={onEnClick}
+                className="hover:opacity-100 transition-opacity hover:text-[#6B7B6A] text-left"
+              >
+                🇺🇸 For English
+              </button>
             </div>
           </div>
         </div>

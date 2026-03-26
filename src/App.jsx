@@ -12,6 +12,7 @@ import InsightsScreen from './screens/InsightsScreen.jsx';
 import ProfileScreen from './screens/ProfileScreen.jsx';
 import UpgradeScreen from './screens/UpgradeScreen.jsx';
 import PrivacyScreen from './screens/PrivacyScreen.jsx';
+import EnglishComingSoon from './screens/EnglishComingSoon.jsx';
 
 function InnerApp() {
   const { setPhilosopher } = useTheme();
@@ -174,6 +175,7 @@ function InnerApp() {
         onStartJournaling={handleStartJournaling}
         onPhilosopherClick={handlePhilosopherClick}
         onUpgradeClick={handleUpgradeClick}
+        onEnClick={() => goTo('en')}
       />
     ),
     philosopher_profile: selectedPhilosopher ? (
@@ -225,6 +227,7 @@ function InnerApp() {
         isPaid={isPaid}
         onTabChange={handleTabChange}
         onUpgradeClick={handleUpgradeClick}
+        onLogoClick={handleLogoClick}
       />
     ),
     profile: (
@@ -238,6 +241,7 @@ function InnerApp() {
     ),
     upgrade: <UpgradeScreen onBack={() => goTo(upgradeOrigin)} />,
     privacy: <PrivacyScreen onBack={() => goTo('profile')} />,
+    en: <EnglishComingSoon onBack={() => goTo('landing')} />,
   };
 
   return (

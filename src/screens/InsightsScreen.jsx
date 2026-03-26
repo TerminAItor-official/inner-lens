@@ -19,14 +19,14 @@ const mockPatterns = [
 
 const mockChartLabels = ['Thinker Breakdown', 'Mood Over Time', 'Word Patterns'];
 
-export default function InsightsScreen({ onTabChange, onUpgradeClick, isPaid }) {
+export default function InsightsScreen({ onTabChange, onUpgradeClick, onLogoClick, isPaid }) {
   return (
     <motion.div
       className="min-h-screen pb-32 font-body"
       style={{ backgroundColor: '#fdf9f2', color: '#4A4541' }}
       {...fadeIn}
     >
-      <Header isPaid={isPaid} onUpgradeClick={onUpgradeClick} />
+      <Header isPaid={isPaid} onUpgradeClick={onUpgradeClick} onLogoClick={onLogoClick} />
 
       <main className="pt-28 pb-32 px-6 max-w-2xl mx-auto">
         {/* Title */}

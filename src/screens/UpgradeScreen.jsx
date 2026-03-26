@@ -87,15 +87,20 @@ export default function UpgradeScreen({ onBack }) {
           </div>
         </div>
 
+        {/* Trial note */}
+        <p className="font-body text-sm text-[#434842]/60 text-center mb-5 leading-relaxed">
+          Free for 7 days, then <span className="text-[#434842]">$6/mo</span> or <span className="text-[#434842]">$49/yr</span> — cancel any time.
+        </p>
+
         {/* CTA — Stripe wired in Phase 2 */}
         <button
           className="w-full py-4 bg-[#2F3A34] text-[#F5F1EA] rounded-xl font-label text-sm font-bold uppercase tracking-widest hover:bg-[#1A221E] transition-all shadow-md active:scale-[0.98] mb-4"
         >
-          Start 14-Day Free Trial
+          Start Your 7-Day Free Trial
         </button>
 
         <p className="font-label text-[10px] uppercase tracking-widest text-[#434842]/40 text-center">
-          Cancel any time · No questions asked
+          No credit card drama · Cancel any time
         </p>
 
       </main>
