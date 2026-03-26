@@ -8,7 +8,7 @@ import annaFreudImg  from '../assets/philosophers/anna-freud.jpg';
 import jungImg       from '../assets/philosophers/jung.jpg';
 import kleinImg      from '../assets/philosophers/klein.jpg';
 import lacanImg      from '../assets/philosophers/lacan.jpg';
-import winnicottImg  from '../assets/philosophers/winnicott-placeholder.svg';
+import winnicottImg  from '../assets/philosophers/winnicott.jpg';
 
 const PORTRAITS = {
   freud:      freudImg,
