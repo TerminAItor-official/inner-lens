@@ -194,23 +194,23 @@ export default function JournalEntry({
         </div>
 
         {/* ── Textarea ── */}
-        <div className="relative flex-grow flex flex-col group">
-          <textarea
-            className="w-full flex-grow bg-transparent border-none resize-none text-xl md:text-2xl leading-relaxed font-body text-[#434842] placeholder-[#c4c8c0] focus:ring-0 p-0 min-h-[200px]"
-            placeholder="Write freely... there are no wrong answers."
-            value={text}
-            onChange={e => setText(e.target.value)}
-            autoFocus
-          />
-          <div className="mt-4 flex justify-between items-center border-t border-[#c4c8c0]/20 pt-4">
-            <div className="flex gap-2">
+        <div className="relative flex-grow flex flex-col">
+          <div className="flex-grow flex flex-col rounded-2xl bg-white/70 border border-[#c4c8c0]/40 shadow-sm focus-within:border-[#6b7b6a]/50 focus-within:shadow-md transition-all px-5 pt-5 pb-4">
+            <textarea
+              className="w-full flex-grow bg-transparent border-none resize-none text-xl md:text-2xl leading-relaxed font-body text-[#434842] placeholder-[#b0ada7] focus:ring-0 focus:outline-none p-0 min-h-[200px]"
+              placeholder="Write freely... there are no wrong answers."
+              value={text}
+              onChange={e => setText(e.target.value)}
+              autoFocus
+            />
+            <div className="mt-3 flex justify-between items-center border-t border-[#c4c8c0]/30 pt-3">
               <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#ffdad5] text-[#7b534e] font-label text-[10px] font-bold uppercase tracking-wider">
                 {isStreakPrompt ? 'Deep Reflection' : 'Reflection'}
               </span>
+              <span className="font-label text-[11px] uppercase tracking-widest text-[#747872]">
+                {wordCount} {wordCount === 1 ? 'word' : 'words'}
+              </span>
             </div>
-            <span className="font-label text-[11px] uppercase tracking-widest text-[#747872]">
-              {wordCount} {wordCount === 1 ? 'word' : 'words'}
-            </span>
           </div>
         </div>
 
