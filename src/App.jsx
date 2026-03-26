@@ -233,6 +233,7 @@ function InnerApp() {
         onTabChange={handleTabChange}
         onUpgradeClick={handleUpgradeClick}
         onPrivacyClick={() => goTo('privacy')}
+        onLogoClick={handleLogoClick}
       />
     ),
     upgrade: <UpgradeScreen onBack={() => goTo(upgradeOrigin)} />,

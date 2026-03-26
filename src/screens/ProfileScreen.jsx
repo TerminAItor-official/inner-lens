@@ -14,7 +14,7 @@ const settingsItems = [
   { icon: 'lock',          label: 'Privacy & Data',  note: '' },
 ];
 
-export default function ProfileScreen({ onTabChange, onUpgradeClick, onPrivacyClick, isPaid }) {
+export default function ProfileScreen({ onTabChange, onUpgradeClick, onPrivacyClick, onLogoClick, isPaid }) {
   // Phase 2: pull from Supabase auth
   const displayName = 'Reflective Soul';
   const sessionCount = 0;
@@ -29,10 +29,13 @@ export default function ProfileScreen({ onTabChange, onUpgradeClick, onPrivacyCl
     >
       {/* Header */}
       <header className="bg-[#2F3A34] fixed top-0 w-full z-50 shadow-sm">
-        <div className="flex items-center gap-2 px-6 py-4 font-body text-[#F5F1EA] italic text-xl">
+        <button
+          onClick={onLogoClick}
+          className="flex items-center gap-2 px-6 py-4 font-body text-[#F5F1EA] italic text-xl hover:opacity-80 transition-opacity"
+        >
           <span className="material-symbols-outlined">psychology</span>
           Inner Lens
-        </div>
+        </button>
       </header>
 
       <main className="pt-28 pb-32 px-6 max-w-2xl mx-auto space-y-8">
