@@ -311,9 +311,10 @@ export default function LandingPage({ onStartJournaling, onPhilosopherClick, onU
                 href="https://momwordsmatter.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:opacity-100 transition-opacity hover:text-[#6B7B6A]"
+                className="hover:opacity-100 transition-opacity hover:text-[#6B7B6A] flex items-baseline gap-1.5"
               >
                 🇧🇷 Para Português
+                <span className="text-[#4A4541]/40 text-[10px]">momwordsmatter.com</span>
               </a>
               <button
                 onClick={onEnClick}
