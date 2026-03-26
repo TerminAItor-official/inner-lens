@@ -67,6 +67,7 @@ export default function JournalEntry({
   // Text input
   const [text, setText]             = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [confirmed, setConfirmed]   = useState(false);
 
   const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0;
   // Button visible whenever it hasn't been tapped this session;
@@ -84,12 +85,12 @@ export default function JournalEntry({
     advanceStreakQuestionIndex(STREAK_QUESTIONS.length);
   };
 
-  const handleSubmit = async () => {
-    if (!text.trim() || submitting) return;
-    setSubmitting(true);
-    recordJournal(); // persist streak before navigating away
-    await onSubmit(text.trim());
-    setSubmitting(false);
+  const handleSubmit = () => {
+    if (!text.trim() || submitting || confirmed) return;
+    recordJournal(); // persist streak
+    setConfirmed(true);
+    // Brief confirmation moment, then hand off to routing
+    setTimeout(() => onSubmit(text.trim()), 1600);
   };
 
   // ── Render ──────────────────────────────────────────────────────────────────
@@ -193,30 +194,76 @@ export default function JournalEntry({
           </div>
         </div>
 
-        {/* ── Textarea ── */}
-        <div className="relative flex-grow flex flex-col">
-          <div className="flex-grow flex flex-col rounded-2xl bg-white/70 border border-[#c4c8c0]/40 shadow-sm focus-within:border-[#6b7b6a]/50 focus-within:shadow-md transition-all px-5 pt-5 pb-4">
-            <textarea
-              className="w-full flex-grow bg-transparent border-none resize-none text-xl md:text-2xl leading-relaxed font-body text-[#434842] placeholder-[#b0ada7] focus:ring-0 focus:outline-none p-0 min-h-[200px]"
-              placeholder="Write freely... there are no wrong answers."
-              value={text}
-              onChange={e => setText(e.target.value)}
-              autoFocus
-            />
-            <div className="mt-3 flex justify-between items-center border-t border-[#c4c8c0]/30 pt-3">
-              <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#ffdad5] text-[#7b534e] font-label text-[10px] font-bold uppercase tracking-wider">
-                {isStreakPrompt ? 'Deep Reflection' : 'Reflection'}
-              </span>
-              <span className="font-label text-[11px] uppercase tracking-widest text-[#747872]">
-                {wordCount} {wordCount === 1 ? 'word' : 'words'}
-              </span>
-            </div>
-          </div>
-        </div>
+        {/* ── Textarea + submit ── */}
+        <AnimatePresence mode="wait">
+          {confirmed ? (
+            <motion.div
+              key="confirmed"
+              initial={{ opacity: 0, scale: 0.97 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              className="flex-grow flex flex-col items-center justify-center text-center py-16 gap-4"
+            >
+              <motion.div
+                initial={{ scale: 0.5, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.1, type: 'spring', stiffness: 260, damping: 20 }}
+                className="w-16 h-16 rounded-full bg-[#536252]/10 flex items-center justify-center"
+              >
+                <span className="material-symbols-outlined text-3xl text-[#536252]" style={{ fontVariationSettings: "'FILL' 1" }}>
+                  check_circle
+                </span>
+              </motion.div>
+              <h2 className="font-headline text-2xl text-[#2F3A34]">Entry saved.</h2>
+              <p className="font-body text-[#747872] text-base">Nice work today.</p>
+              <p className="font-label text-[11px] uppercase tracking-widest text-[#c4c8c0] mt-2">
+                Finding your lens…
+              </p>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="input"
+              initial={false}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="flex-grow flex flex-col gap-5"
+            >
+              {/* Textarea card */}
+              <div className="flex-grow flex flex-col rounded-2xl bg-white/70 border border-[#c4c8c0]/40 shadow-sm focus-within:border-[#6b7b6a]/50 focus-within:shadow-md transition-all px-5 pt-5 pb-4">
+                <textarea
+                  className="w-full flex-grow bg-transparent border-none resize-none text-xl md:text-2xl leading-relaxed font-body text-[#434842] placeholder-[#b0ada7] focus:ring-0 focus:outline-none p-0 min-h-[200px]"
+                  placeholder="Write freely... there are no wrong answers."
+                  value={text}
+                  onChange={e => setText(e.target.value)}
+                  autoFocus
+                />
+                <div className="mt-3 flex justify-between items-center border-t border-[#c4c8c0]/30 pt-3">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#ffdad5] text-[#7b534e] font-label text-[10px] font-bold uppercase tracking-wider">
+                    {isStreakPrompt ? 'Deep Reflection' : 'Reflection'}
+                  </span>
+                  <span className="font-label text-[11px] uppercase tracking-widest text-[#747872]">
+                    {wordCount} {wordCount === 1 ? 'word' : 'words'}
+                  </span>
+                </div>
+              </div>
+
+              {/* Submit — right below the card */}
+              <button
+                onClick={handleSubmit}
+                disabled={!text.trim()}
+                className="w-full py-4 bg-[#2F3A34] text-[#F5F1EA] rounded-lg shadow-lg flex items-center justify-center gap-2 hover:bg-[#1A221E] transition-all active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed font-label text-sm font-bold uppercase tracking-widest"
+              >
+                Take me to the couch
+                <span className="material-symbols-outlined">arrow_forward</span>
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* ── Free tier notice ── */}
-        {!isPaid && (
-          <div className="mt-10 p-5 bg-surface-container-low border-l-4 border-[#ffdad5] rounded-r-lg">
+        {!isPaid && !confirmed && (
+          <div className="mt-6 p-5 bg-surface-container-low border-l-4 border-[#ffdad5] rounded-r-lg">
             <p className="font-label text-[11px] font-semibold text-[#536252] uppercase tracking-wider mb-1">Free Plan</p>
             <p className="text-[#434842] text-sm leading-relaxed">
               1 session per day ·{' '}
@@ -232,40 +279,30 @@ export default function JournalEntry({
         )}
 
         {/* ── Explore perspectives ── */}
-        <div className="mt-14 mb-10">
-          <h3 className="font-label text-[10px] font-bold text-[#747872] uppercase tracking-[0.2em] mb-5">
-            Explore Perspectives
-          </h3>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-            {philosophers.map((philosopher) => {
-              const { emoji, shortName, tag, accent, key } = philosopher;
-              return (
-                <button
-                  key={key}
-                  onClick={() => onPhilosopherClick?.(philosopher)}
-                  className="p-4 bg-surface-container-lowest shadow-sm text-left hover:brightness-95 transition-all active:scale-[0.98]"
-                  style={{ borderLeft: `2px solid ${accent}` }}
-                >
-                  <span className="text-xl mb-2 block">{emoji}</span>
-                  <p className="font-label text-[11px] font-bold text-[#1c1c18] uppercase tracking-tighter">{shortName}</p>
-                  <p className="font-body text-[13px] italic text-[#747872] leading-snug">{tag}</p>
-                </button>
-              );
-            })}
+        {!confirmed && (
+          <div className="mt-14 mb-10">
+            <h3 className="font-label text-[10px] font-bold text-[#747872] uppercase tracking-[0.2em] mb-5">
+              Explore Perspectives
+            </h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              {philosophers.map((philosopher) => {
+                const { emoji, shortName, tag, accent, key } = philosopher;
+                return (
+                  <button
+                    key={key}
+                    onClick={() => onPhilosopherClick?.(philosopher)}
+                    className="p-4 bg-surface-container-lowest shadow-sm text-left hover:brightness-95 transition-all active:scale-[0.98]"
+                    style={{ borderLeft: `2px solid ${accent}` }}
+                  >
+                    <span className="text-xl mb-2 block">{emoji}</span>
+                    <p className="font-label text-[11px] font-bold text-[#1c1c18] uppercase tracking-tighter">{shortName}</p>
+                    <p className="font-body text-[13px] italic text-[#747872] leading-snug">{tag}</p>
+                  </button>
+                );
+              })}
+            </div>
           </div>
-        </div>
-
-        {/* ── Submit CTA ── */}
-        <div className="mt-8">
-          <button
-            onClick={handleSubmit}
-            disabled={!text.trim() || submitting}
-            className="w-full py-4 bg-[#2F3A34] text-[#F5F1EA] rounded-lg shadow-lg flex items-center justify-center gap-2 hover:bg-[#1A221E] transition-all active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed font-label text-sm font-bold uppercase tracking-widest"
-          >
-            {submitting ? 'Finding your lens...' : 'Take me to the couch'}
-            {!submitting && <span className="material-symbols-outlined">arrow_forward</span>}
-          </button>
-        </div>
+        )}
       </main>
 
       <BottomNav activeTab="reflect" onTabChange={onTabChange} />
