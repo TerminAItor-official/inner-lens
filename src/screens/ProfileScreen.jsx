@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import BottomNav from '../components/BottomNav.jsx';
 
 const fadeIn = {
@@ -20,6 +20,21 @@ export default function ProfileScreen({ onTabChange, onUpgradeClick, onPrivacyCl
   const sessionCount = 0;
   const streak = 0;
   const joinDate = 'March 2026';
+
+  // Inline notice for settings rows not yet wired to a full screen
+  const [notice, setNotice] = useState(null);
+  const showNotice = (msg) => {
+    setNotice(msg);
+    setTimeout(() => setNotice(null), 3000);
+  };
+
+  const handleSettingClick = (label) => {
+    if (label === 'Privacy & Data')  return onPrivacyClick?.();
+    if (label === 'Daily Reminder')  return showNotice('Daily reminders are coming soon.');
+    if (label === 'Export Journal')  return isPaid
+      ? showNotice('Export is coming soon — your entries will be ready to download.')
+      : onUpgradeClick?.();
+  };
 
   return (
     <motion.div
@@ -97,10 +112,23 @@ export default function ProfileScreen({ onTabChange, onUpgradeClick, onPrivacyCl
 
         {/* Settings list */}
         <div className="rounded-xl border border-[#c4c8c0]/30 overflow-hidden">
+          <AnimatePresence>
+            {notice && (
+              <motion.div
+                initial={{ opacity: 0, y: -6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.25 }}
+                className="px-6 py-3 bg-[#F5F1EA] border-b border-[#c4c8c0]/30 font-body text-sm text-[#536252]"
+              >
+                {notice}
+              </motion.div>
+            )}
+          </AnimatePresence>
           {settingsItems.map(({ icon, label, note }, i) => (
             <div
               key={label}
-              onClick={label === 'Privacy & Data' ? onPrivacyClick : undefined}
+              onClick={() => handleSettingClick(label)}
               className={`flex items-center justify-between px-6 py-5 bg-white/70 hover:bg-[#F5F1EA] transition-colors cursor-pointer ${i < settingsItems.length - 1 ? 'border-b border-[#c4c8c0]/20' : ''}`}
             >
               <div className="flex items-center gap-4">
