@@ -1,5 +1,7 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { ThemeProvider, useTheme } from './context/ThemeContext.jsx';
+import { onAuthChange, getUser } from './lib/auth.js';
+import { saveJournalEntry, updateReflection } from './lib/journal.js';
 import LandingPage from './screens/LandingPage.jsx';
 import JournalEntry from './screens/JournalEntry.jsx';
 import RoutingTransition from './screens/RoutingTransition.jsx';
@@ -13,6 +15,7 @@ import ProfileScreen from './screens/ProfileScreen.jsx';
 import UpgradeScreen from './screens/UpgradeScreen.jsx';
 import PrivacyScreen from './screens/PrivacyScreen.jsx';
 import EnglishComingSoon from './screens/EnglishComingSoon.jsx';
+import AuthScreen from './screens/AuthScreen.jsx';
 import questionsData from '../lib/questions.json';
 
 /** Build a valid routingResult locally when /api/route-entry is unreachable. */
@@ -54,9 +57,17 @@ function InnerApp() {
   const [profileOrigin, setProfileOrigin] = useState('landing');
   const [upgradeOrigin, setUpgradeOrigin] = useState('landing');
   const [autoStreakQuestion, setAutoStreakQuestion] = useState(false);
+  const [user, setUser] = useState(null);
+  const [authOrigin, setAuthOrigin] = useState('landing');
+  const [currentEntryId, setCurrentEntryId] = useState(null);
 
-  // Stub — wire to Supabase auth in Phase 2
-  const isPaid = false;
+  // Auth — any logged-in user is free tier for now; paid check added in Phase 2
+  useEffect(() => {
+    getUser().then(setUser);
+    return onAuthChange(setUser);
+  }, []);
+
+  const isPaid = false; // Phase 2: derive from user subscription status
 
   const goTo = useCallback((s) => setScreen(s), []);
 
@@ -145,6 +156,18 @@ function InnerApp() {
         setRoutingResult(data);
         setPhilosopher(data.philosopher);
         goTo('reveal');
+        // Fire-and-forget save after routing result is known
+        if (user) {
+          saveJournalEntry({
+            userId:       user.id,
+            entryText,
+            philosopher:  data.philosopher,
+            questionText: data.question_text,
+          }).then(({ data: row, error }) => {
+            if (error) console.error('[journal] save failed:', error.message);
+            else { console.log('[journal] entry saved:', row.id); setCurrentEntryId(row.id); }
+          });
+        }
       }
     } catch (err) {
       console.warn('[route-entry] API call failed, falling back to local routing:', err.message);
@@ -152,15 +175,35 @@ function InnerApp() {
       setRoutingResult(fallback);
       setPhilosopher(fallback.philosopher);
       goTo('reveal');
+      if (user) {
+        saveJournalEntry({
+          userId:       user.id,
+          entryText,
+          philosopher:  fallback.philosopher,
+          questionText: fallback.question_text,
+        }).then(({ data: row, error }) => {
+          if (error) console.error('[journal] save failed (fallback):', error.message);
+          else { console.log('[journal] entry saved (fallback):', row.id); setCurrentEntryId(row.id); }
+        });
+      }
     }
-  }, [goTo, setPhilosopher]);
+  }, [goTo, setPhilosopher, user]);
 
   const handleSaveReflection = useCallback(async (reflectionText) => {
+    // Persist reflection regardless of tier (fire-and-forget)
+    if (user && currentEntryId) {
+      updateReflection(currentEntryId, reflectionText).then(({ error }) => {
+        if (error) console.error('[journal] reflection update failed:', error.message);
+        else console.log('[journal] reflection saved for entry:', currentEntryId);
+      });
+    }
+
     if (!isPaid) {
       // Free tier: acknowledge save, reset to journal
       setPhilosopher('brand');
       setRoutingResult(null);
       setEntry('');
+      setCurrentEntryId(null);
       goTo('journal');
       return;
     }
@@ -188,13 +231,14 @@ function InnerApp() {
     } finally {
       setAiReflectionLoading(false);
     }
-  }, [isPaid, routingResult, entry, goTo, setPhilosopher]);
+  }, [isPaid, routingResult, entry, goTo, setPhilosopher, user, currentEntryId]);
 
   const handleCloseSession = useCallback(() => {
     setPhilosopher('brand');
     setEntry('');
     setRoutingResult(null);
     setAiReflection(null);
+    setCurrentEntryId(null);
     goTo('journal');
   }, [setPhilosopher, goTo]);
 
@@ -211,6 +255,8 @@ function InnerApp() {
         onPhilosopherClick={handlePhilosopherClick}
         onUpgradeClick={handleUpgradeClick}
         onEnClick={() => goTo('en')}
+        onProfileClick={() => goTo('profile')}
+        user={user}
       />
     ),
     philosopher_profile: selectedPhilosopher ? (
@@ -231,6 +277,7 @@ function InnerApp() {
         onUpgradeClick={handleUpgradeClick}
         autoStreakQuestion={autoStreakQuestion}
         onAutoStreakQuestionConsumed={() => setAutoStreakQuestion(false)}
+        user={user}
       />
     ),
     routing: <RoutingTransition />,
@@ -257,6 +304,7 @@ function InnerApp() {
       <JournalHistory
         onBack={() => goTo('journal')}
         onTabChange={handleTabChange}
+        user={user}
       />
     ),
     insights: (
@@ -265,6 +313,7 @@ function InnerApp() {
         onTabChange={handleTabChange}
         onUpgradeClick={handleUpgradeClick}
         onLogoClick={handleLogoClick}
+        user={user}
       />
     ),
     profile: (
@@ -275,11 +324,14 @@ function InnerApp() {
         onPrivacyClick={() => goTo('privacy')}
         onLogoClick={handleLogoClick}
         onStreakQuestion={() => { setAutoStreakQuestion(true); goTo('journal'); }}
+        onSignIn={() => { setAuthOrigin('profile'); goTo('auth'); }}
+        user={user}
       />
     ),
     upgrade: <UpgradeScreen onBack={() => goTo(upgradeOrigin)} />,
     privacy: <PrivacyScreen onBack={() => goTo('profile')} />,
     en: <EnglishComingSoon onBack={() => goTo('landing')} />,
+    auth: <AuthScreen onBack={() => goTo(authOrigin)} />,
   };
 
   return (

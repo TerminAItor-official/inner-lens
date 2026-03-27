@@ -24,7 +24,7 @@ const NAV_LINKS = [
   { id: 'pricing',  label: 'Pricing',     href: '#pricing'  },
 ];
 
-export default function LandingPage({ onStartJournaling, onPhilosopherClick, onUpgradeClick, onEnClick }) {
+export default function LandingPage({ onStartJournaling, onPhilosopherClick, onUpgradeClick, onEnClick, onProfileClick }) {
   const [activeSection, setActiveSection] = useState(null);
 
   const handleNavClick = (id, href) => {
@@ -72,7 +72,9 @@ export default function LandingPage({ onStartJournaling, onPhilosopherClick, onU
             >
               Begin Reflection
             </button>
-            <span className="material-symbols-outlined text-[#536252] cursor-pointer">account_circle</span>
+            <button onClick={onProfileClick} className="text-[#536252] hover:text-[#2F3A34] transition-colors">
+              <span className="material-symbols-outlined">account_circle</span>
+            </button>
           </div>
         </div>
       </nav>

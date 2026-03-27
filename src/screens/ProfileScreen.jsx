@@ -15,9 +15,9 @@ const settingsItems = [
   { icon: 'lock',          label: 'Privacy & Data',  note: '' },
 ];
 
-export default function ProfileScreen({ onTabChange, onUpgradeClick, onPrivacyClick, onLogoClick, onStreakQuestion, isPaid }) {
-  // Phase 2: pull from Supabase auth
-  const displayName = 'Reflective Soul';
+export default function ProfileScreen({ onTabChange, onUpgradeClick, onPrivacyClick, onLogoClick, onStreakQuestion, onSignIn, isPaid, user }) {
+  // Use real name from auth, fall back to generic label
+  const displayName = user?.user_metadata?.full_name ?? user?.email?.split('@')[0] ?? 'Reflective Soul';
   const sessionCount = 0;
   const { streak } = loadStreak();
   const joinDate = 'March 2026';
@@ -36,6 +36,44 @@ export default function ProfileScreen({ onTabChange, onUpgradeClick, onPrivacyCl
       ? showNotice('Export is coming soon — your entries will be ready to download.')
       : onUpgradeClick?.();
   };
+
+  // Signed-out state — show a minimal prompt instead of the full profile
+  if (!user) {
+    return (
+      <motion.div
+        className="min-h-screen pb-32 font-body flex flex-col"
+        style={{ backgroundColor: '#fdf9f2', color: '#4A4541' }}
+        {...fadeIn}
+      >
+        <header className="bg-[#2F3A34] fixed top-0 w-full z-50 shadow-sm">
+          <button
+            onClick={onLogoClick}
+            className="flex items-center gap-2 px-6 py-4 font-body text-[#F5F1EA] italic text-xl hover:opacity-80 transition-opacity"
+          >
+            <span className="material-symbols-outlined">psychology</span>
+            Inner Lens
+          </button>
+        </header>
+        <main className="flex-1 flex flex-col items-center justify-center px-6 text-center pt-28 pb-12">
+          <span className="material-symbols-outlined text-5xl text-[#536252] mb-6" style={{ fontVariationSettings: "'FILL' 0" }}>
+            account_circle
+          </span>
+          <h1 className="font-headline text-3xl text-[#2F3A34] mb-3">Your profile</h1>
+          <div className="w-10 h-px bg-[#536252]/30 mx-auto mb-6" />
+          <p className="font-body text-sm text-[#434842]/70 leading-relaxed mb-10 max-w-xs">
+            Sign in to save your reflections, track your streak, and access your session history across devices.
+          </p>
+          <button
+            onClick={onSignIn}
+            className="px-8 py-4 bg-[#2F3A34] text-[#F5F1EA] rounded-xl font-label text-sm font-bold uppercase tracking-widest hover:bg-[#1A221E] transition-all shadow-md active:scale-[0.98]"
+          >
+            Sign in
+          </button>
+        </main>
+        <BottomNav activeTab="profile" onTabChange={onTabChange} />
+      </motion.div>
+    );
+  }
 
   return (
     <motion.div
