@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Header from '../components/Header.jsx';
 import BottomNav from '../components/BottomNav.jsx';
@@ -53,6 +53,8 @@ export default function JournalEntry({
   onTabChange,
   onLogoClick,
   onUpgradeClick,
+  autoStreakQuestion,
+  onAutoStreakQuestionConsumed,
 }) {
   // Prompt state — mutable so streak question can replace it
   const [prompt, setPrompt]         = useState(getDailyPrompt);
@@ -84,6 +86,15 @@ export default function JournalEntry({
     setStreakUsed(true);
     advanceStreakQuestionIndex(STREAK_QUESTIONS.length);
   };
+
+  // Auto-trigger streak question when navigated here from ProfileScreen
+  useEffect(() => {
+    if (autoStreakQuestion) {
+      handleStreakQuestion();
+      onAutoStreakQuestionConsumed?.();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // run once on mount only
 
   const handleSubmit = () => {
     if (!text.trim() || submitting || confirmed) return;

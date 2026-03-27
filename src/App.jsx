@@ -13,6 +13,34 @@ import ProfileScreen from './screens/ProfileScreen.jsx';
 import UpgradeScreen from './screens/UpgradeScreen.jsx';
 import PrivacyScreen from './screens/PrivacyScreen.jsx';
 import EnglishComingSoon from './screens/EnglishComingSoon.jsx';
+import questionsData from '../lib/questions.json';
+
+/** Build a valid routingResult locally when /api/route-entry is unreachable. */
+function buildLocalFallback() {
+  const keys = Object.keys(questionsData.philosophers);
+  const key = keys[Math.floor(Math.random() * keys.length)];
+  const p = questionsData.philosophers[key];
+  const q = p.questions[Math.floor(Math.random() * p.questions.length)];
+  console.warn(
+    '[route-entry] API unavailable — using local fallback. Philosopher:',
+    key,
+  );
+  return {
+    philosopher: key,
+    confidence: 0.5,
+    runner_up: null,
+    reasoning: 'Local fallback: API not reachable.',
+    question_id: q.id,
+    question_text: q.text,
+    philosopher_data: {
+      name: p.name,
+      emoji: p.emoji,
+      tagline: p.tagline,
+      colors: p.colors,
+      intro: p.intro,
+    },
+  };
+}
 
 function InnerApp() {
   const { setPhilosopher } = useTheme();
@@ -25,6 +53,7 @@ function InnerApp() {
   const [selectedPhilosopher, setSelectedPhilosopher] = useState(null);
   const [profileOrigin, setProfileOrigin] = useState('landing');
   const [upgradeOrigin, setUpgradeOrigin] = useState('landing');
+  const [autoStreakQuestion, setAutoStreakQuestion] = useState(false);
 
   // Stub — wire to Supabase auth in Phase 2
   const isPaid = false;
@@ -105,6 +134,9 @@ function InnerApp() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ entry: entryText }),
       });
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
       const data = await res.json();
 
       if (data.crisis) {
@@ -115,8 +147,11 @@ function InnerApp() {
         goTo('reveal');
       }
     } catch (err) {
-      console.error('[route-entry]', err);
-      goTo('journal');
+      console.warn('[route-entry] API call failed, falling back to local routing:', err.message);
+      const fallback = buildLocalFallback();
+      setRoutingResult(fallback);
+      setPhilosopher(fallback.philosopher);
+      goTo('reveal');
     }
   }, [goTo, setPhilosopher]);
 
@@ -194,6 +229,8 @@ function InnerApp() {
         onTabChange={handleTabChange}
         onLogoClick={handleLogoClick}
         onUpgradeClick={handleUpgradeClick}
+        autoStreakQuestion={autoStreakQuestion}
+        onAutoStreakQuestionConsumed={() => setAutoStreakQuestion(false)}
       />
     ),
     routing: <RoutingTransition />,
@@ -237,6 +274,7 @@ function InnerApp() {
         onUpgradeClick={handleUpgradeClick}
         onPrivacyClick={() => goTo('privacy')}
         onLogoClick={handleLogoClick}
+        onStreakQuestion={() => { setAutoStreakQuestion(true); goTo('journal'); }}
       />
     ),
     upgrade: <UpgradeScreen onBack={() => goTo(upgradeOrigin)} />,

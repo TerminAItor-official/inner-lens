@@ -323,6 +323,14 @@ export default function LandingPage({ onStartJournaling, onPhilosopherClick, onU
                 🇺🇸 For English
               </button>
             </div>
+            <a
+              href="https://buymeacoffee.com/innerlens"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-body text-sm text-[#434842]/60 hover:text-[#434842] transition-colors pt-1 inline-block"
+            >
+              Love Inner Lens? Support us on Buy Me a Coffee ☕
+            </a>
           </div>
         </div>
       </footer>

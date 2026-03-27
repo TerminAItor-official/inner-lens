@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import BottomNav from '../components/BottomNav.jsx';
+import { loadStreak } from '../lib/streak.js';
 
 const fadeIn = {
   initial: { opacity: 0, y: 12 },
@@ -14,11 +15,11 @@ const settingsItems = [
   { icon: 'lock',          label: 'Privacy & Data',  note: '' },
 ];
 
-export default function ProfileScreen({ onTabChange, onUpgradeClick, onPrivacyClick, onLogoClick, isPaid }) {
+export default function ProfileScreen({ onTabChange, onUpgradeClick, onPrivacyClick, onLogoClick, onStreakQuestion, isPaid }) {
   // Phase 2: pull from Supabase auth
   const displayName = 'Reflective Soul';
   const sessionCount = 0;
-  const streak = 0;
+  const { streak } = loadStreak();
   const joinDate = 'March 2026';
 
   // Inline notice for settings rows not yet wired to a full screen
@@ -108,6 +109,50 @@ export default function ProfileScreen({ onTabChange, onUpgradeClick, onPrivacyCl
               <p className="font-label text-[10px] uppercase tracking-widest text-[#747872] mt-1">{label}</p>
             </div>
           ))}
+        </div>
+
+        <p className="text-center font-label text-[10px] uppercase tracking-widest text-[#747872] leading-relaxed px-4">
+          Your streak grows each consecutive day you journal.
+          <br />Hit 3 days to unlock deeper Streak Questions.
+        </p>
+
+        {/* Streak question shortcut */}
+        <div className="flex flex-col items-center gap-1.5">
+          <motion.button
+            onClick={streak >= 3 ? onStreakQuestion : undefined}
+            disabled={streak < 3}
+            animate={streak >= 3 ? {
+              boxShadow: [
+                '0 0 0px rgba(200, 169, 106, 0.0)',
+                '0 0 18px rgba(200, 169, 106, 0.55)',
+                '0 0 0px rgba(200, 169, 106, 0.0)',
+              ],
+            } : {}}
+            transition={streak >= 3
+              ? { duration: 2.4, repeat: Infinity, ease: 'easeInOut' }
+              : {}}
+            whileHover={streak >= 3 ? { scale: 1.02 } : {}}
+            whileTap={streak >= 3 ? { scale: 0.97 } : {}}
+            className="flex items-center gap-2.5 px-5 py-3 rounded-xl border font-label text-xs font-bold uppercase tracking-widest transition-colors"
+            style={streak >= 3 ? {
+              borderColor: '#C8A96A',
+              color: '#8e6e2a',
+              backgroundColor: '#FDF8EF',
+              cursor: 'pointer',
+            } : {
+              borderColor: '#D4D0CA',
+              color: '#AEABA4',
+              backgroundColor: '#F8F6F2',
+              cursor: 'not-allowed',
+            }}
+          >
+            🔥 Streak Question — dare to go deeper?
+          </motion.button>
+          {streak < 3 && (
+            <p className="font-label text-[10px] tracking-wider text-[#AEABA4]">
+              Unlocks after a 3-day streak
+            </p>
+          )}
         </div>
 
         {/* Settings list */}

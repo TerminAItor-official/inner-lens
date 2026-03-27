@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const fadeIn = {
   initial: { opacity: 0, y: 16 },
@@ -16,6 +16,13 @@ const features = [
 ];
 
 export default function UpgradeScreen({ onBack }) {
+  const [toast, setToast] = useState(false);
+
+  const handleTrial = () => {
+    setToast(true);
+    setTimeout(() => setToast(false), 3000);
+  };
+
   return (
     <motion.div
       className="min-h-screen font-body flex flex-col"
@@ -92,16 +99,41 @@ export default function UpgradeScreen({ onBack }) {
           Free for 7 days, then <span className="text-[#434842]">$6/mo</span> or <span className="text-[#434842]">$49/yr</span> — cancel any time.
         </p>
 
-        {/* CTA — Stripe wired in Phase 2 */}
+        {/* CTA */}
         <button
+          onClick={handleTrial}
           className="w-full py-4 bg-[#2F3A34] text-[#F5F1EA] rounded-xl font-label text-sm font-bold uppercase tracking-widest hover:bg-[#1A221E] transition-all shadow-md active:scale-[0.98] mb-4"
         >
           Start Your 7-Day Free Trial
         </button>
 
+        {/* Toast */}
+        <AnimatePresence>
+          {toast && (
+            <motion.div
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -4 }}
+              transition={{ duration: 0.3 }}
+              className="text-center font-label text-[11px] uppercase tracking-widest text-[#536252] mb-2"
+            >
+              Stripe payments coming soon. You're on the list. ✓
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         <p className="font-label text-[10px] uppercase tracking-widest text-[#434842]/40 text-center">
           No credit card drama · Cancel any time
         </p>
+
+        <a
+          href="https://buymeacoffee.com/innerlens"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-body text-sm text-[#434842]/60 hover:text-[#434842] transition-colors mt-8 text-center inline-block"
+        >
+          Love Inner Lens? Support us on Buy Me a Coffee ☕
+        </a>
 
       </main>
     </motion.div>
