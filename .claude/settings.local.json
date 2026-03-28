@@ -21,7 +21,8 @@
       "Bash(powershell -command \"Invoke-WebRequest -Uri ''https://upload.wikimedia.org/wikipedia/commons/2/25/Jacques_Lacan_during_an_interview_1969.jpg'' -OutFile ''C:\\\\Code\\\\inner-lens\\\\.claude\\\\worktrees\\\\loving-euler\\\\src\\\\assets\\\\philosophers\\\\lacan.jpg'' -UserAgent ''Mozilla/5.0''; Write-Host \\(''lacan.jpg: '' + \\(Get-Item ''C:\\\\Code\\\\inner-lens\\\\.claude\\\\worktrees\\\\loving-euler\\\\src\\\\assets\\\\philosophers\\\\lacan.jpg''\\).Length + '' bytes''\\)\")",
       "Bash(powershell -command \"Get-ChildItem src/assets/philosophers | Select-Object Name, Length\")",
       "Bash(vercel --prod)",
-      "Bash(vercel --prod --yes)"
+      "Bash(vercel --prod --yes)",
+      "Bash(git add:*)"
     ]
   }
 }
