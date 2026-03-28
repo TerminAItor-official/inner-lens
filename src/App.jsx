@@ -16,6 +16,7 @@ import UpgradeScreen from './screens/UpgradeScreen.jsx';
 import PrivacyScreen from './screens/PrivacyScreen.jsx';
 import EnglishComingSoon from './screens/EnglishComingSoon.jsx';
 import AuthScreen from './screens/AuthScreen.jsx';
+import SavePromptScreen from './screens/SavePromptScreen.jsx';
 import questionsData from '../lib/questions.json';
 
 /** Build a valid routingResult locally when /api/route-entry is unreachable. */
@@ -155,9 +156,8 @@ function InnerApp() {
       } else {
         setRoutingResult(data);
         setPhilosopher(data.philosopher);
-        goTo('reveal');
-        // Fire-and-forget save after routing result is known
         if (user) {
+          // Signed in — save immediately and go straight to reveal
           saveJournalEntry({
             userId:       user.id,
             entryText,
@@ -167,6 +167,10 @@ function InnerApp() {
             if (error) console.error('[journal] save failed:', error.message);
             else { console.log('[journal] entry saved:', row.id); setCurrentEntryId(row.id); }
           });
+          goTo('reveal');
+        } else {
+          // Not signed in — pause to offer sign-in before reveal
+          goTo('save_prompt');
         }
       }
     } catch (err) {
@@ -174,7 +178,6 @@ function InnerApp() {
       const fallback = buildLocalFallback();
       setRoutingResult(fallback);
       setPhilosopher(fallback.philosopher);
-      goTo('reveal');
       if (user) {
         saveJournalEntry({
           userId:       user.id,
@@ -185,6 +188,9 @@ function InnerApp() {
           if (error) console.error('[journal] save failed (fallback):', error.message);
           else { console.log('[journal] entry saved (fallback):', row.id); setCurrentEntryId(row.id); }
         });
+        goTo('reveal');
+      } else {
+        goTo('save_prompt');
       }
     }
   }, [goTo, setPhilosopher, user]);
@@ -256,7 +262,15 @@ function InnerApp() {
         onUpgradeClick={handleUpgradeClick}
         onEnClick={() => goTo('en')}
         onProfileClick={() => goTo('profile')}
+        onSignInClick={() => { setAuthOrigin('landing'); goTo('auth'); }}
         user={user}
+      />
+    ),
+    save_prompt: (
+      <SavePromptScreen
+        routingResult={routingResult}
+        onSignIn={() => { setAuthOrigin('save_prompt'); goTo('auth'); }}
+        onContinue={() => goTo('reveal')}
       />
     ),
     philosopher_profile: selectedPhilosopher ? (

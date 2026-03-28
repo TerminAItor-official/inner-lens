@@ -24,7 +24,7 @@ const NAV_LINKS = [
   { id: 'pricing',  label: 'Pricing',     href: '#pricing'  },
 ];
 
-export default function LandingPage({ onStartJournaling, onPhilosopherClick, onUpgradeClick, onEnClick, onProfileClick }) {
+export default function LandingPage({ onStartJournaling, onPhilosopherClick, onUpgradeClick, onEnClick, onProfileClick, onSignInClick, user }) {
   const [activeSection, setActiveSection] = useState(null);
 
   const handleNavClick = (id, href) => {
@@ -72,8 +72,12 @@ export default function LandingPage({ onStartJournaling, onPhilosopherClick, onU
             >
               Begin Reflection
             </button>
-            <button onClick={onProfileClick} className="text-[#536252] hover:text-[#2F3A34] transition-colors">
-              <span className="material-symbols-outlined">account_circle</span>
+            <button
+              onClick={user ? onProfileClick : onSignInClick}
+              className="flex items-center gap-1.5 text-[#536252] hover:text-[#2F3A34] transition-colors font-label text-xs uppercase tracking-widest"
+            >
+              <span className="material-symbols-outlined text-xl">account_circle</span>
+              {user ? 'Profile' : 'Sign in'}
             </button>
           </div>
         </div>
@@ -90,12 +94,18 @@ export default function LandingPage({ onStartJournaling, onPhilosopherClick, onU
             Inner Lens
           </button>
           <div className="flex items-center gap-3">
-            <span className="material-symbols-outlined text-[#F5F1EA]">menu_book</span>
+            <button
+              onClick={user ? onProfileClick : onSignInClick}
+              className="flex items-center gap-1 text-[#F5F1EA]/80 hover:text-[#F5F1EA] transition-colors font-label text-[11px] uppercase tracking-widest"
+            >
+              <span className="material-symbols-outlined text-base">account_circle</span>
+              {user ? 'Profile' : 'Sign in'}
+            </button>
             <button
               onClick={onStartJournaling}
               className="bg-[#C8A96A] text-[#2F3A34] px-4 py-1.5 rounded-lg font-label text-xs uppercase tracking-widest font-bold"
             >
-              Upgrade
+              Begin
             </button>
           </div>
         </div>
@@ -277,7 +287,7 @@ export default function LandingPage({ onStartJournaling, onPhilosopherClick, onU
                 onClick={onUpgradeClick}
                 className="w-full py-4 bg-[#536252] text-white font-label text-xs font-bold tracking-widest uppercase hover:bg-[#6b7b6a] transition-all shadow-md"
               >
-                Start 14-Day Deep Trial
+                Start 7-Day Free Trial
               </button>
             </div>
           </div>
