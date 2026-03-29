@@ -68,61 +68,68 @@ function InnerApp() {
   const [currentEntryId, setCurrentEntryId] = useState(null);
   const [showWelcome, setShowWelcome] = useState(false);
 
-  // Auth — any logged-in user is free tier for now; paid check added in Phase 2
+  // ── Auth bootstrap ──────────────────────────────────────────────────────────
+  // Welcome modal: skip if user is returning from a magic-link auth redirect
+  // (a pending entry in localStorage is a reliable signal for that case).
   useEffect(() => {
-    // Show welcome modal once for first-time visitors (wait a beat so landing renders first)
-    if (!hasBeenWelcomed()) {
+    if (!hasBeenWelcomed() && !localStorage.getItem(PENDING_ENTRY_KEY)) {
       setTimeout(() => setShowWelcome(true), 600);
     }
-
-    getUser().then((u) => {
-      setUser(u);
-      // Restore pending entry if user just returned from magic-link auth
-      if (u) {
-        try {
-          const raw = localStorage.getItem(PENDING_ENTRY_KEY);
-          if (raw) {
-            const { entryText, routingResult: pending } = JSON.parse(raw);
-            localStorage.removeItem(PENDING_ENTRY_KEY);
-            if (entryText && pending) {
-              setEntry(entryText);
-              setRoutingResult(pending);
-              setPhilosopher(pending.philosopher);
-              // Save to DB now that we have a user
-              saveJournalEntry({
-                userId:       u.id,
-                entryText,
-                philosopher:  pending.philosopher,
-                questionText: pending.question_text,
-              }).then(({ data: row, error }) => {
-                if (error) console.error('[journal] pending save failed:', error.message);
-                else { console.log('[journal] pending entry saved:', row.id); setCurrentEntryId(row.id); }
-              });
-              goTo('reveal');
-            }
-          }
-        } catch (e) {
-          console.warn('[auth] failed to restore pending entry:', e);
-        }
-
-        // Upsert marketing opt-in preference saved during signup
-        const raw = localStorage.getItem(PENDING_MARKETING_KEY);
-        if (raw !== null) {
-          const optIn = JSON.parse(raw);
-          localStorage.removeItem(PENDING_MARKETING_KEY);
-          supabase
-            .from('user_preferences')
-            .upsert({ user_id: u.id, marketing_opt_in: optIn }, { onConflict: 'user_id' })
-            .then(({ error }) => {
-              if (error) console.error('[prefs] marketing opt-in save failed:', error.message);
-              else console.log('[prefs] marketing opt-in saved:', optIn);
-            });
-        }
-      }
-    });
+    getUser().then(setUser);
     return onAuthChange(setUser);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // ── Pending-entry restore ────────────────────────────────────────────────────
+  // Runs whenever `user` becomes non-null — covers both:
+  //   a) page load with an existing session (getUser resolves with user)
+  //   b) magic-link redirect (onAuthChange fires SIGNED_IN; getUser may have
+  //      returned null before the token was exchanged)
+  useEffect(() => {
+    if (!user) return;
+
+    // Restore a journal entry that was in-progress before the auth redirect
+    try {
+      const raw = localStorage.getItem(PENDING_ENTRY_KEY);
+      if (raw) {
+        const { entryText, routingResult: pending } = JSON.parse(raw);
+        localStorage.removeItem(PENDING_ENTRY_KEY);
+        if (entryText && pending) {
+          setEntry(entryText);
+          setRoutingResult(pending);
+          setPhilosopher(pending.philosopher);
+          saveJournalEntry({
+            userId:       user.id,
+            entryText,
+            philosopher:  pending.philosopher,
+            questionText: pending.question_text,
+          }).then(({ data: row, error }) => {
+            if (error) console.error('[journal] pending save failed:', error.message);
+            else { console.log('[journal] pending entry saved:', row?.id); setCurrentEntryId(row?.id); }
+          });
+          goTo('reveal'); // skip save-prompt entirely — user is now authenticated
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn('[auth] failed to restore pending entry:', e);
+    }
+
+    // Upsert marketing opt-in preference saved during signup
+    const mRaw = localStorage.getItem(PENDING_MARKETING_KEY);
+    if (mRaw !== null) {
+      const optIn = JSON.parse(mRaw);
+      localStorage.removeItem(PENDING_MARKETING_KEY);
+      supabase
+        .from('user_preferences')
+        .upsert({ user_id: user.id, marketing_opt_in: optIn }, { onConflict: 'user_id' })
+        .then(({ error }) => {
+          if (error) console.error('[prefs] marketing opt-in save failed:', error.message);
+          else console.log('[prefs] marketing opt-in saved:', optIn);
+        });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   const isPaid = false; // Phase 2: derive from user subscription status
 
