@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Header from '../components/Header.jsx';
 import BottomNav from '../components/BottomNav.jsx';
-
-// Phase 2: populated from Supabase. Shows empty state until then.
+import { getJournalEntries } from '../lib/journal.js';
 
 const PHILOSOPHER_STYLES = {
   freud:      { bg: '#FDF2ED', border: '#A0522D', text: '#A0522D', label: 'Freud',      emoji: '🛋️' },
@@ -54,9 +53,25 @@ function EntryCard({ philosopher, date, excerpt, reflection, aiInsight }) {
   );
 }
 
-export default function JournalHistory({ onBack }) {
-  // Entries come from Supabase in Phase 2
-  const entries = [];
+export default function JournalHistory({ onBack, onTabChange, user }) {
+  const [entries, setEntries] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!user) return;
+    setLoading(true);
+    getJournalEntries(user.id).then(({ data, error }) => {
+      if (error) console.error('[journal] fetch failed:', error.message);
+      else setEntries(data.map(row => ({
+        philosopher:  row.philosopher,
+        date:         new Date(row.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+        excerpt:      row.entry_text?.slice(0, 160) + (row.entry_text?.length > 160 ? '…' : ''),
+        reflection:   row.reflection_text ?? null,
+        aiInsight:    row.ai_insight ?? null,
+      })));
+      setLoading(false);
+    });
+  }, [user]);
 
   return (
     <motion.div
@@ -96,16 +111,23 @@ export default function JournalHistory({ onBack }) {
           <h2 className="text-3xl font-headline text-[#2F3A34] italic">Reflections</h2>
         </div>
 
-        {entries.length === 0 ? (
+        {loading ? (
+          <div className="text-center py-24 space-y-4">
+            <span className="material-symbols-outlined text-4xl text-[#536252] animate-spin">progress_activity</span>
+            <p className="font-label text-[10px] uppercase tracking-widest text-[#747872]">Loading your entries…</p>
+          </div>
+        ) : entries.length === 0 ? (
           <div className="text-center py-24 space-y-4">
             <div className="text-5xl opacity-30">📖</div>
             <p className="font-headline italic text-2xl text-[#6B7B6A]">Your journal is waiting.</p>
             <p className="font-body text-[#434842]/60 leading-relaxed max-w-sm mx-auto">
               Complete a session and your entries will appear here, tinted with the color of your matched philosopher.
             </p>
-            <p className="font-label text-[10px] uppercase tracking-widest text-[#747872] mt-6">
-              Full history saves when Supabase is connected (Phase 2)
-            </p>
+            {!user && (
+              <p className="font-label text-[10px] uppercase tracking-widest text-[#747872] mt-6">
+                Sign in to save and view your history across devices.
+              </p>
+            )}
           </div>
         ) : (
           entries.map((entry, i) => <EntryCard key={i} {...entry} />)
@@ -126,7 +148,7 @@ export default function JournalHistory({ onBack }) {
         </div>
       </footer>
 
-      <BottomNav activeTab="library" onTabChange={() => {}} />
+      <BottomNav activeTab="library" onTabChange={onTabChange} />
     </motion.div>
   );
 }

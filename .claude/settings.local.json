@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run:*)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(cmd /c \"dir C:\\\\Code\\\\inner-lens\\\\node_modules\\\\.bin\\\\vite* /b 2>nul\")",
+      "Bash(cmd /c \"where node & where npm & node --version & npm --version\")",
+      "Bash(cmd /c \"where node.exe 2>nul & where npm.exe 2>nul\")",
+      "Bash(cmd /c \"powershell -command \"\"Get-Command node,npm -ErrorAction SilentlyContinue | Select-Object Name,Source\"\"\")",
+      "Bash(powershell -command \"Get-Command node,npm -ErrorAction SilentlyContinue | Select-Object Name,Source\")",
+      "Bash(powershell -command \"Get-Command vite -ErrorAction SilentlyContinue | Select-Object Source; \\(npm root -g 2>$null\\)\")",
+      "Bash(powershell -command \"Get-ChildItem ''C:\\\\Code\\\\inner-lens\\\\.claude\\\\worktrees\\\\loving-euler\\\\node_modules\\\\.bin'' -ErrorAction SilentlyContinue | Select-Object -First 5 Name\")",
+      "Bash(powershell -command \"New-Item -ItemType Directory -Force -Path ''C:\\\\Code\\\\inner-lens\\\\.claude\\\\worktrees\\\\loving-euler\\\\src\\\\assets\\\\philosophers'' | Out-Null; Write-Host ''Directory ready''\")",
+      "Bash(powershell -command \"Invoke-WebRequest -Uri ''https://upload.wikimedia.org/wikipedia/commons/0/00/CGJung.jpg'' -OutFile ''C:\\\\Code\\\\inner-lens\\\\.claude\\\\worktrees\\\\loving-euler\\\\src\\\\assets\\\\philosophers\\\\jung.jpg'' -UserAgent ''Mozilla/5.0''; Write-Host \\(''jung.jpg: '' + \\(Get-Item ''C:\\\\Code\\\\inner-lens\\\\.claude\\\\worktrees\\\\loving-euler\\\\src\\\\assets\\\\philosophers\\\\jung.jpg''\\).Length + '' bytes''\\)\")",
+      "Bash(powershell -command \"Invoke-WebRequest -Uri ''https://upload.wikimedia.org/wikipedia/commons/7/7e/Melanie_Klein_1952.jpg'' -OutFile ''C:\\\\Code\\\\inner-lens\\\\.claude\\\\worktrees\\\\loving-euler\\\\src\\\\assets\\\\philosophers\\\\klein.jpg'' -UserAgent ''Mozilla/5.0''; Write-Host \\(''klein.jpg: '' + \\(Get-Item ''C:\\\\Code\\\\inner-lens\\\\.claude\\\\worktrees\\\\loving-euler\\\\src\\\\assets\\\\philosophers\\\\klein.jpg''\\).Length + '' bytes''\\)\")",
+      "Bash(powershell -command \"Invoke-WebRequest -Uri ''https://upload.wikimedia.org/wikipedia/commons/4/41/Lacan.jpg'' -OutFile ''C:\\\\Code\\\\inner-lens\\\\.claude\\\\worktrees\\\\loving-euler\\\\src\\\\assets\\\\philosophers\\\\lacan.jpg'' -UserAgent ''Mozilla/5.0''; Write-Host \\(''lacan.jpg: '' + \\(Get-Item ''C:\\\\Code\\\\inner-lens\\\\.claude\\\\worktrees\\\\loving-euler\\\\src\\\\assets\\\\philosophers\\\\lacan.jpg''\\).Length + '' bytes''\\)\")",
+      "WebFetch(domain:en.wikipedia.org)",
+      "WebFetch(domain:commons.wikimedia.org)",
+      "Bash(powershell -command \":*)",
+      "Bash(powershell -command \"Invoke-WebRequest -Uri ''https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Anna_Freud_1957.jpg/330px-Anna_Freud_1957.jpg'' -OutFile ''C:\\\\Code\\\\inner-lens\\\\.claude\\\\worktrees\\\\loving-euler\\\\src\\\\assets\\\\philosophers\\\\anna-freud.jpg'' -UserAgent ''Mozilla/5.0''; Write-Host \\(''anna-freud.jpg: '' + \\(Get-Item ''C:\\\\Code\\\\inner-lens\\\\.claude\\\\worktrees\\\\loving-euler\\\\src\\\\assets\\\\philosophers\\\\anna-freud.jpg''\\).Length + '' bytes''\\)\")",
+      "Bash(powershell -command \"Invoke-WebRequest -Uri ''https://upload.wikimedia.org/wikipedia/commons/2/25/Jacques_Lacan_during_an_interview_1969.jpg'' -OutFile ''C:\\\\Code\\\\inner-lens\\\\.claude\\\\worktrees\\\\loving-euler\\\\src\\\\assets\\\\philosophers\\\\lacan.jpg'' -UserAgent ''Mozilla/5.0''; Write-Host \\(''lacan.jpg: '' + \\(Get-Item ''C:\\\\Code\\\\inner-lens\\\\.claude\\\\worktrees\\\\loving-euler\\\\src\\\\assets\\\\philosophers\\\\lacan.jpg''\\).Length + '' bytes''\\)\")",
+      "Bash(powershell -command \"Get-ChildItem src/assets/philosophers | Select-Object Name, Length\")",
+      "Bash(vercel --prod)",
+      "Bash(vercel --prod --yes)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
+    ]
+  }
+}

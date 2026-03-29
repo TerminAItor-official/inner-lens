@@ -33,12 +33,14 @@ function isCrisis(text) {
 }
 
 function getFallbackResponse() {
-  const philosopher = questions.philosophers.winnicott;
-  const question = philosopher.questions[0];
+  const keys = Object.keys(questions.philosophers);
+  const key = keys[Math.floor(Math.random() * keys.length)];
+  const philosopher = questions.philosophers[key];
+  const question = philosopher.questions[Math.floor(Math.random() * philosopher.questions.length)];
   return {
-    philosopher: 'winnicott',
+    philosopher: key,
     confidence: 0.5,
-    runner_up: 'jung',
+    runner_up: null,
     reasoning: 'Fallback due to routing error.',
     question_id: question.id,
     question_text: question.text,

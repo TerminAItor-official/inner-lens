@@ -15,7 +15,7 @@ const PHILOSOPHER_LABELS = {
   lacan:      'Lacan',
 };
 
-export default function PhilosopherReveal({ routingResult, entry, onSave, onBack, isPaid }) {
+export default function PhilosopherReveal({ routingResult, entry, onSave, onBack, isPaid, onUpgradeClick }) {
   const { philosopher: activePhilosopher } = useTheme();
   const [reflection, setReflection] = useState('');
   const [saving, setSaving] = useState(false);
@@ -97,10 +97,13 @@ export default function PhilosopherReveal({ routingResult, entry, onSave, onBack
               Your reflection
             </label>
             {!isPaid && (
-              <span className="text-[#C8A96A] font-label text-[11px] flex items-center gap-1">
+              <button
+                onClick={onUpgradeClick}
+                className="text-[#C8A96A] font-label text-[11px] flex items-center gap-1 hover:opacity-80 transition-opacity"
+              >
                 <span className="material-symbols-outlined text-[14px]" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
                 Upgrade to Deep Lens for AI insight
-              </span>
+              </button>
             )}
           </div>
           <textarea
@@ -150,7 +153,7 @@ export default function PhilosopherReveal({ routingResult, entry, onSave, onBack
           <button
             onClick={handleSave}
             disabled={!reflection.trim() || saving || saved}
-            className="flex-[2] py-4 rounded-xl font-label text-sm font-semibold tracking-wide shadow-lg active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-[2] py-4 rounded-xl font-label text-sm font-semibold tracking-wide shadow-lg hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             style={{ backgroundColor: '#2F3A34', color: '#F5F1EA' }}
           >
             {saved
