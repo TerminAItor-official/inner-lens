@@ -131,7 +131,7 @@ export default function LandingPage({ onStartJournaling, onPhilosopherClick, onU
             </button>
             <button
               onClick={onStartJournaling}
-              className="bg-[#C8A96A] text-[#2F3A34] px-4 py-1.5 rounded-lg font-label text-xs uppercase tracking-widest font-bold"
+              className="bg-[#C8A96A] text-[#2F3A34] px-4 py-1.5 rounded-lg font-label text-xs uppercase tracking-widest font-bold hover:scale-[1.04] hover:brightness-105 active:scale-[0.97] transition-all"
             >
               Begin
             </button>

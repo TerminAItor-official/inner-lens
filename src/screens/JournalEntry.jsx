@@ -263,7 +263,7 @@ export default function JournalEntry({
               <button
                 onClick={handleSubmit}
                 disabled={!text.trim()}
-                className="w-full py-4 bg-[#2F3A34] text-[#F5F1EA] rounded-lg shadow-lg flex items-center justify-center gap-2 hover:bg-[#1A221E] transition-all active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed font-label text-sm font-bold uppercase tracking-widest"
+                className="w-full py-4 bg-[#2F3A34] text-[#F5F1EA] rounded-lg shadow-lg flex items-center justify-center gap-2 hover:bg-[#1A221E] hover:scale-[1.02] transition-all active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed font-label text-sm font-bold uppercase tracking-widest"
               >
                 Take me to the couch
                 <span className="material-symbols-outlined">arrow_forward</span>

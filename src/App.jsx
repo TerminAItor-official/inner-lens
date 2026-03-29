@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { ThemeProvider, useTheme } from './context/ThemeContext.jsx';
 import { onAuthChange, getUser } from './lib/auth.js';
+import { supabase } from './lib/supabase.js';
 import { saveJournalEntry, updateReflection } from './lib/journal.js';
 import LandingPage from './screens/LandingPage.jsx';
 import JournalEntry from './screens/JournalEntry.jsx';
@@ -20,7 +21,8 @@ import SavePromptScreen from './screens/SavePromptScreen.jsx';
 import WelcomeModal, { hasBeenWelcomed, markWelcomed } from './components/WelcomeModal.jsx';
 import questionsData from '../lib/questions.json';
 
-const PENDING_ENTRY_KEY = 'il_pending_entry';
+const PENDING_ENTRY_KEY      = 'il_pending_entry';
+const PENDING_MARKETING_KEY  = 'il_pending_marketing_opt_in';
 
 /** Build a valid routingResult locally when /api/route-entry is unreachable. */
 function buildLocalFallback() {
@@ -101,6 +103,20 @@ function InnerApp() {
           }
         } catch (e) {
           console.warn('[auth] failed to restore pending entry:', e);
+        }
+
+        // Upsert marketing opt-in preference saved during signup
+        const raw = localStorage.getItem(PENDING_MARKETING_KEY);
+        if (raw !== null) {
+          const optIn = JSON.parse(raw);
+          localStorage.removeItem(PENDING_MARKETING_KEY);
+          supabase
+            .from('user_preferences')
+            .upsert({ user_id: u.id, marketing_opt_in: optIn }, { onConflict: 'user_id' })
+            .then(({ error }) => {
+              if (error) console.error('[prefs] marketing opt-in save failed:', error.message);
+              else console.log('[prefs] marketing opt-in saved:', optIn);
+            });
         }
       }
     });

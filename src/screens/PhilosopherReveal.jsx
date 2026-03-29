@@ -153,7 +153,7 @@ export default function PhilosopherReveal({ routingResult, entry, onSave, onBack
           <button
             onClick={handleSave}
             disabled={!reflection.trim() || saving || saved}
-            className="flex-[2] py-4 rounded-xl font-label text-sm font-semibold tracking-wide shadow-lg active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-[2] py-4 rounded-xl font-label text-sm font-semibold tracking-wide shadow-lg hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             style={{ backgroundColor: '#2F3A34', color: '#F5F1EA' }}
           >
             {saved

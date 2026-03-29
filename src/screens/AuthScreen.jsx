@@ -27,8 +27,9 @@ export default function AuthScreen({ onBack }) {
     if (authError) {
       setError(authError.message ?? 'Something went wrong. Please try again.');
     } else {
-      // TODO: persist to user_preferences table in Supabase (Phase 2)
-      console.log('[auth] marketingOptIn:', marketingOptIn);
+      // Stash preference in localStorage — upserted to Supabase in App.jsx
+      // once the magic-link click establishes a real session with a user_id.
+      localStorage.setItem('il_pending_marketing_opt_in', JSON.stringify(marketingOptIn));
       setSent(true);
     }
   };
