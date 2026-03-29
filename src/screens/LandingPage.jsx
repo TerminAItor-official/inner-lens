@@ -2,13 +2,37 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import philosophers from '../data/philosophers.js';
 
-const fadeIn = {
-  initial: { opacity: 0, y: 16 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+// ── Animation variants ──────────────────────────────────────────────────────
+const ease = [0.16, 1, 0.3, 1];
+
+/** Gentle fade + rise — base for most elements */
+const fadeUp = {
+  hidden:  { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease } },
 };
 
-// Landing-page card copy (tagline + short desc per philosopher)
+/** Slide in from the left */
+const fromLeft = {
+  hidden:  { opacity: 0, x: -28 },
+  visible: { opacity: 1, x:  0,  transition: { duration: 0.65, ease } },
+};
+
+/** Slide in from the right */
+const fromRight = {
+  hidden:  { opacity: 0, x:  28 },
+  visible: { opacity: 1, x:  0,  transition: { duration: 0.65, ease } },
+};
+
+/** Stagger wrapper — staggers direct motion children */
+const stagger = (staggerChildren = 0.1, delayChildren = 0) => ({
+  hidden:  {},
+  visible: { transition: { staggerChildren, delayChildren } },
+});
+
+/** Shared whileInView props — once only, trigger when 15 % is visible */
+const inView = { initial: 'hidden', whileInView: 'visible', viewport: { once: true, amount: 0.15 } };
+
+// ── Static data ─────────────────────────────────────────────────────────────
 const cardCopy = {
   freud:       { desc: 'Uncover the latent meanings behind your daily frustrations through psychoanalytic dreamwork.' },
   anna_freud:  { desc: "Identify the ego's protective layers and how they influence your current interpersonal dynamics." },
@@ -24,6 +48,7 @@ const NAV_LINKS = [
   { id: 'pricing',  label: 'Pricing',     href: '#pricing'  },
 ];
 
+// ── Component ────────────────────────────────────────────────────────────────
 export default function LandingPage({ onStartJournaling, onPhilosopherClick, onUpgradeClick, onEnClick, onProfileClick, onSignInClick, user }) {
   const [activeSection, setActiveSection] = useState(null);
 
@@ -36,9 +61,9 @@ export default function LandingPage({ onStartJournaling, onPhilosopherClick, onU
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   return (
-    <motion.div className="font-body" {...fadeIn}>
+    <motion.div className="font-body" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }}>
 
-      {/* ── Desktop nav (md+) ── */}
+      {/* ── Desktop nav ── */}
       <nav className="hidden md:flex fixed top-0 w-full z-50 bg-[#fdf9f2]/85 backdrop-blur-xl transition-all duration-300">
         <div className="flex justify-between items-center px-16 py-6 max-w-[1440px] mx-auto w-full">
           <div
@@ -66,12 +91,15 @@ export default function LandingPage({ onStartJournaling, onPhilosopherClick, onU
             })}
           </div>
           <div className="flex items-center space-x-6">
-            <button
+            <motion.button
               onClick={onStartJournaling}
-              className="bg-[#536252] text-white px-6 py-2.5 rounded font-label text-xs uppercase tracking-widest font-semibold hover:bg-[#6b7b6a] transition-all"
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ type: 'spring', stiffness: 350, damping: 22 }}
+              className="bg-[#536252] text-white px-6 py-2.5 rounded font-label text-xs uppercase tracking-widest font-semibold hover:bg-[#6b7b6a] transition-colors"
             >
               Begin Reflection
-            </button>
+            </motion.button>
             <button
               onClick={user ? onProfileClick : onSignInClick}
               className="flex items-center gap-1.5 text-[#536252] hover:text-[#2F3A34] transition-colors font-label text-xs uppercase tracking-widest"
@@ -115,39 +143,67 @@ export default function LandingPage({ onStartJournaling, onPhilosopherClick, onU
       <header className="pt-32 md:pt-48 pb-24 md:pb-32 px-6 md:px-16">
         <div className="max-w-[1440px] mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-7">
-              <span className="font-label text-xs tracking-[0.2em] uppercase text-[#536252] mb-6 block font-medium">
+
+            {/* Hero copy — staggered children */}
+            <motion.div
+              className="lg:col-span-7"
+              variants={stagger(0.13, 0.1)}
+              initial="hidden"
+              animate="visible"
+            >
+              <motion.span
+                variants={fadeUp}
+                className="font-label text-xs tracking-[0.2em] uppercase text-[#536252] mb-6 block font-medium"
+              >
                 A Mom Words Matter™ Experience
-              </span>
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-headline text-[#6B7B6A] leading-[1.1] mb-8 tracking-tight">
+              </motion.span>
+              <motion.h1
+                variants={fadeUp}
+                className="text-5xl md:text-7xl lg:text-8xl font-headline text-[#6B7B6A] leading-[1.1] mb-8 tracking-tight"
+              >
                 What's really on{' '}
                 <br className="hidden md:block" />
                 <i className="font-normal italic">your mind?</i>
-              </h1>
-              <p className="text-xl md:text-2xl font-body text-[#4A4541] leading-relaxed max-w-xl mb-10">
+              </motion.h1>
+              <motion.p
+                variants={fadeUp}
+                className="text-xl md:text-2xl font-body text-[#4A4541] leading-relaxed max-w-xl mb-10"
+              >
                 Journal through the lens of history's greatest thinkers. AI reads your words and matches you to the perspective you need most.
-              </p>
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-                <button
+              </motion.p>
+              <motion.div variants={fadeUp} className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                <motion.button
                   onClick={onStartJournaling}
-                  className="bg-[#C8A96A] text-[#2F3A34] px-8 py-4 rounded-xl font-label font-bold text-sm uppercase tracking-[0.2em] shadow-lg hover:brightness-110 transition-all flex items-center gap-3 group"
+                  whileHover={{ scale: 1.04, brightness: 1.1 }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ type: 'spring', stiffness: 350, damping: 22 }}
+                  className="bg-[#C8A96A] text-[#2F3A34] px-8 py-4 rounded-xl font-label font-bold text-sm uppercase tracking-[0.2em] shadow-lg hover:brightness-110 flex items-center gap-3 group"
                 >
                   Start Journaling — Free
                   <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
-                </button>
+                </motion.button>
                 <a href="#method" className="font-label text-sm font-semibold tracking-widest uppercase text-[#536252] border-b border-[#536252]/20 hover:border-[#536252] transition-all">
                   Explore The Method
                 </a>
-              </div>
-            </div>
-            <div className="hidden lg:block lg:col-span-5">
+              </motion.div>
+            </motion.div>
+
+            {/* Quote card */}
+            <motion.div
+              className="hidden lg:block lg:col-span-5"
+              variants={fromRight}
+              initial="hidden"
+              animate="visible"
+              transition={{ delay: 0.35 }}
+            >
               <div className="bg-surface-container-low rounded-xl p-10 shadow-lg">
                 <p className="font-body italic text-2xl leading-relaxed text-[#4A4541]">
                   "The unexamined life is not worth living."
                 </p>
                 <p className="font-label text-[10px] tracking-widest uppercase mt-6 text-[#4A4541]/60">— Socrates</p>
               </div>
-            </div>
+            </motion.div>
+
           </div>
         </div>
       </header>
@@ -155,7 +211,13 @@ export default function LandingPage({ onStartJournaling, onPhilosopherClick, onU
       {/* ── The Council ── */}
       <section id="thinkers" className="py-24 md:py-32 px-6 md:px-16 bg-surface-container">
         <div className="max-w-[1440px] mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-4">
+
+          {/* Section header */}
+          <motion.div
+            className="flex flex-col md:flex-row justify-between items-end mb-16 gap-4"
+            variants={fadeUp}
+            {...inView}
+          >
             <div className="max-w-2xl">
               <h2 className="text-3xl md:text-4xl font-headline text-[#4A4541] mb-4">Choose Your Guide</h2>
               <p className="text-lg font-body text-[#4A4541]/70 leading-relaxed">
@@ -163,16 +225,26 @@ export default function LandingPage({ onStartJournaling, onPhilosopherClick, onU
               </p>
             </div>
             <span className="font-label text-[10px] uppercase tracking-widest text-[#747872]">All 6 free</span>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          </motion.div>
+
+          {/* Philosopher cards — staggered grid */}
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+            variants={stagger(0.08)}
+            {...inView}
+          >
             {philosophers.map((philosopher) => {
               const { emoji, name, tag, accent, key } = philosopher;
               const { desc } = cardCopy[key];
               return (
-                <button
+                <motion.button
                   key={key}
+                  variants={fadeUp}
+                  whileHover={{ y: -6, boxShadow: '0 12px 32px rgba(0,0,0,0.09)' }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 22 }}
                   onClick={() => onPhilosopherClick(philosopher)}
-                  className="group bg-surface-container-lowest p-8 md:p-10 rounded-xl transition-all hover:-translate-y-1 cursor-pointer text-left w-full"
+                  className="group bg-surface-container-lowest p-8 md:p-10 rounded-xl cursor-pointer text-left w-full"
                   style={{ borderLeft: `3px solid ${accent}` }}
                 >
                   <div className="flex justify-between items-start mb-6">
@@ -187,46 +259,68 @@ export default function LandingPage({ onStartJournaling, onPhilosopherClick, onU
                     className="h-px w-0 group-hover:w-full transition-all duration-500"
                     style={{ backgroundColor: accent }}
                   />
-                </button>
+                </motion.button>
               );
             })}
-          </div>
+          </motion.div>
+
         </div>
       </section>
 
       {/* ── How it works ── */}
       <section id="method" className="py-24 md:py-32 px-6 md:px-16">
         <div className="max-w-[1440px] mx-auto">
-          <div className="text-center mb-16 md:mb-24">
+
+          {/* Section header */}
+          <motion.div className="text-center mb-16 md:mb-24" variants={fadeUp} {...inView}>
             <h2 className="text-4xl md:text-5xl font-headline text-[#1c1c18] mb-6">A Ritual of Awareness</h2>
             <div className="w-24 h-px bg-[#536252]/30 mx-auto" />
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-24">
+          </motion.div>
+
+          {/* Three steps — staggered left to right */}
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-24"
+            variants={stagger(0.15)}
+            {...inView}
+          >
             {[
-              { icon: 'edit_note',      title: '1. Write Freely',  body: 'Begin with a stream of consciousness. Our interface is designed to disappear, leaving only you and your thoughts.' },
-              { icon: 'auto_awesome',   title: '2. Get Matched',   body: 'Based on your emotional cadence, Inner Lens suggests the most relevant psychological framework for that moment.' },
-              { icon: 'import_contacts',title: '3. Go Deeper',     body: 'Respond to a curated follow-up question from your matched thinker — and unlock a personal AI reflection with Deep Lens.' },
+              { icon: 'edit_note',       title: '1. Write Freely', body: 'Begin with a stream of consciousness. Our interface is designed to disappear, leaving only you and your thoughts.' },
+              { icon: 'auto_awesome',    title: '2. Get Matched',  body: 'Based on your emotional cadence, Inner Lens suggests the most relevant psychological framework for that moment.' },
+              { icon: 'import_contacts', title: '3. Go Deeper',    body: 'Respond to a curated follow-up question from your matched thinker — and unlock a personal AI reflection with Deep Lens.' },
             ].map(({ icon, title, body }) => (
-              <div key={title} className="text-center">
+              <motion.div key={title} className="text-center" variants={fadeUp}>
                 <div className="mb-8 inline-flex items-center justify-center w-16 h-16 md:w-20 md:h-20 rounded-full border border-[#536252]/20">
                   <span className="material-symbols-outlined text-[#536252] text-3xl">{icon}</span>
                 </div>
                 <h3 className="text-xl md:text-2xl font-headline mb-4">{title}</h3>
                 <p className="font-body text-[#434842] leading-relaxed opacity-80 px-4">{body}</p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
+
         </div>
       </section>
 
       {/* ── Pricing ── */}
       <section id="pricing" className="py-24 md:py-32 px-6 md:px-16 bg-surface-container-low">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-headline text-center mb-16 text-[#1c1c18]">Choose Your Depth</h2>
+
+          <motion.h2
+            className="text-3xl md:text-4xl font-headline text-center mb-16 text-[#1c1c18]"
+            variants={fadeUp}
+            {...inView}
+          >
+            Choose Your Depth
+          </motion.h2>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#c4c8c0]/20 rounded-xl overflow-hidden shadow-sm">
 
-            {/* Free */}
-            <div className="bg-surface p-10 md:p-12 flex flex-col justify-between">
+            {/* Free — slides in from left */}
+            <motion.div
+              className="bg-surface p-10 md:p-12 flex flex-col justify-between"
+              variants={fromLeft}
+              {...inView}
+            >
               <div>
                 <span className="font-label text-[10px] tracking-widest uppercase font-bold text-[#434842]/60 mb-8 block">Open Access</span>
                 <h3 className="text-3xl font-headline mb-2">Free</h3>
@@ -245,16 +339,23 @@ export default function LandingPage({ onStartJournaling, onPhilosopherClick, onU
                   ))}
                 </ul>
               </div>
-              <button
+              <motion.button
                 onClick={onStartJournaling}
-                className="w-full py-4 border border-[#747872] text-[#1c1c18] font-label text-xs font-bold tracking-widest uppercase hover:bg-surface-container transition-all"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: 'spring', stiffness: 350, damping: 22 }}
+                className="w-full py-4 border border-[#747872] text-[#1c1c18] font-label text-xs font-bold tracking-widest uppercase hover:bg-surface-container transition-colors"
               >
                 Continue for Free
-              </button>
-            </div>
+              </motion.button>
+            </motion.div>
 
-            {/* Deep Lens */}
-            <div className="bg-surface-container-lowest p-10 md:p-12 flex flex-col justify-between relative">
+            {/* Deep Lens — slides in from right */}
+            <motion.div
+              className="bg-surface-container-lowest p-10 md:p-12 flex flex-col justify-between relative"
+              variants={fromRight}
+              {...inView}
+            >
               <div className="absolute top-0 right-0 bg-[#8e733a] text-white px-4 py-1 font-label text-[10px] font-bold tracking-[0.2em] uppercase">
                 Most Reflective
               </div>
@@ -283,17 +384,27 @@ export default function LandingPage({ onStartJournaling, onPhilosopherClick, onU
                   ))}
                 </ul>
               </div>
-              <button
+              <motion.button
                 onClick={onUpgradeClick}
-                className="w-full py-4 bg-[#536252] text-white font-label text-xs font-bold tracking-widest uppercase hover:bg-[#6b7b6a] transition-all shadow-md"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: 'spring', stiffness: 350, damping: 22 }}
+                className="w-full py-4 bg-[#536252] text-white font-label text-xs font-bold tracking-widest uppercase hover:bg-[#6b7b6a] transition-colors shadow-md"
               >
                 Start 7-Day Free Trial
-              </button>
-            </div>
+              </motion.button>
+            </motion.div>
+
           </div>
-          <p className="text-center mt-8 font-label text-[10px] tracking-widest text-[#434842]/60 uppercase">
+
+          <motion.p
+            className="text-center mt-8 font-label text-[10px] tracking-widest text-[#434842]/60 uppercase"
+            variants={fadeUp}
+            {...inView}
+          >
             Cancel any time. No questions asked.
-          </p>
+          </motion.p>
+
         </div>
       </section>
 
@@ -346,6 +457,7 @@ export default function LandingPage({ onStartJournaling, onPhilosopherClick, onU
           </div>
         </div>
       </footer>
+
     </motion.div>
   );
 }

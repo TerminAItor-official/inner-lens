@@ -17,7 +17,10 @@ import PrivacyScreen from './screens/PrivacyScreen.jsx';
 import EnglishComingSoon from './screens/EnglishComingSoon.jsx';
 import AuthScreen from './screens/AuthScreen.jsx';
 import SavePromptScreen from './screens/SavePromptScreen.jsx';
+import WelcomeModal, { hasBeenWelcomed, markWelcomed } from './components/WelcomeModal.jsx';
 import questionsData from '../lib/questions.json';
+
+const PENDING_ENTRY_KEY = 'il_pending_entry';
 
 /** Build a valid routingResult locally when /api/route-entry is unreachable. */
 function buildLocalFallback() {
@@ -61,11 +64,48 @@ function InnerApp() {
   const [user, setUser] = useState(null);
   const [authOrigin, setAuthOrigin] = useState('landing');
   const [currentEntryId, setCurrentEntryId] = useState(null);
+  const [showWelcome, setShowWelcome] = useState(false);
 
   // Auth — any logged-in user is free tier for now; paid check added in Phase 2
   useEffect(() => {
-    getUser().then(setUser);
+    // Show welcome modal once for first-time visitors (wait a beat so landing renders first)
+    if (!hasBeenWelcomed()) {
+      setTimeout(() => setShowWelcome(true), 600);
+    }
+
+    getUser().then((u) => {
+      setUser(u);
+      // Restore pending entry if user just returned from magic-link auth
+      if (u) {
+        try {
+          const raw = localStorage.getItem(PENDING_ENTRY_KEY);
+          if (raw) {
+            const { entryText, routingResult: pending } = JSON.parse(raw);
+            localStorage.removeItem(PENDING_ENTRY_KEY);
+            if (entryText && pending) {
+              setEntry(entryText);
+              setRoutingResult(pending);
+              setPhilosopher(pending.philosopher);
+              // Save to DB now that we have a user
+              saveJournalEntry({
+                userId:       u.id,
+                entryText,
+                philosopher:  pending.philosopher,
+                questionText: pending.question_text,
+              }).then(({ data: row, error }) => {
+                if (error) console.error('[journal] pending save failed:', error.message);
+                else { console.log('[journal] pending entry saved:', row.id); setCurrentEntryId(row.id); }
+              });
+              goTo('reveal');
+            }
+          }
+        } catch (e) {
+          console.warn('[auth] failed to restore pending entry:', e);
+        }
+      }
+    });
     return onAuthChange(setUser);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const isPaid = false; // Phase 2: derive from user subscription status
@@ -269,7 +309,19 @@ function InnerApp() {
     save_prompt: (
       <SavePromptScreen
         routingResult={routingResult}
-        onSignIn={() => { setAuthOrigin('save_prompt'); goTo('auth'); }}
+        onSignIn={() => {
+          // Persist entry so it survives the magic-link redirect/reload
+          try {
+            localStorage.setItem(
+              PENDING_ENTRY_KEY,
+              JSON.stringify({ entryText: entry, routingResult }),
+            );
+          } catch (e) {
+            console.warn('[auth] could not persist pending entry:', e);
+          }
+          setAuthOrigin('save_prompt');
+          goTo('auth');
+        }}
         onContinue={() => goTo('reveal')}
       />
     ),
@@ -348,12 +400,29 @@ function InnerApp() {
     auth: <AuthScreen onBack={() => goTo(authOrigin)} />,
   };
 
+  const handleWelcomeSignIn = useCallback(() => {
+    markWelcomed();
+    setShowWelcome(false);
+    setAuthOrigin('landing');
+    goTo('auth');
+  }, [goTo]);
+
+  const handleWelcomeDismiss = useCallback(() => {
+    markWelcomed();
+    setShowWelcome(false);
+  }, []);
+
   return (
     <div
       className="min-h-screen"
       style={{ backgroundColor: 'var(--bg)', color: 'var(--text-primary)' }}
     >
       {screens[screen] ?? screens.landing}
+      <WelcomeModal
+        visible={showWelcome}
+        onSignIn={handleWelcomeSignIn}
+        onDismiss={handleWelcomeDismiss}
+      />
     </div>
   );
 }

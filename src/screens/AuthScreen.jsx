@@ -9,10 +9,11 @@ const fadeIn = {
 };
 
 export default function AuthScreen({ onBack }) {
-  const [email, setEmail]       = useState('');
-  const [loading, setLoading]   = useState(false);
-  const [sent, setSent]         = useState(false);
-  const [error, setError]       = useState(null);
+  const [email, setEmail]           = useState('');
+  const [loading, setLoading]       = useState(false);
+  const [sent, setSent]             = useState(false);
+  const [error, setError]           = useState(null);
+  const [marketingOptIn, setMarketingOptIn] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,6 +27,8 @@ export default function AuthScreen({ onBack }) {
     if (authError) {
       setError(authError.message ?? 'Something went wrong. Please try again.');
     } else {
+      // TODO: persist to user_preferences table in Supabase (Phase 2)
+      console.log('[auth] marketingOptIn:', marketingOptIn);
       setSent(true);
     }
   };
@@ -117,10 +120,28 @@ export default function AuthScreen({ onBack }) {
                 <p className="font-body text-sm text-[#ba1a1a] text-center">{error}</p>
               )}
 
+              {/* Marketing opt-in */}
+              <div className="space-y-1.5">
+                <label className="flex items-start gap-3 cursor-pointer group">
+                  <input
+                    type="checkbox"
+                    checked={marketingOptIn}
+                    onChange={e => setMarketingOptIn(e.target.checked)}
+                    className="mt-0.5 w-4 h-4 rounded border-[#c4c8c0] text-[#536252] focus:ring-[#536252]/40 transition-colors cursor-pointer flex-shrink-0"
+                  />
+                  <span className="font-body text-sm text-[#434842]/80 leading-snug group-hover:text-[#434842] transition-colors">
+                    Send me updates about new features and Inner Lens news.
+                  </span>
+                </label>
+                <p className="font-label text-[10px] text-[#434842]/50 pl-7">
+                  We'll never share your email. Unsubscribe anytime.
+                </p>
+              </div>
+
               <button
                 type="submit"
                 disabled={loading || !email.trim()}
-                className="w-full py-4 bg-[#2F3A34] text-[#F5F1EA] rounded-xl font-label text-sm font-bold uppercase tracking-widest hover:bg-[#1A221E] transition-all shadow-md active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-4 bg-[#2F3A34] text-[#F5F1EA] rounded-xl font-label text-sm font-bold uppercase tracking-widest hover:bg-[#1A221E] hover:scale-[1.02] transition-all shadow-md active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? 'Sending…' : 'Send Magic Link'}
               </button>

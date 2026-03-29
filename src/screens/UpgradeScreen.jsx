@@ -102,7 +102,7 @@ export default function UpgradeScreen({ onBack }) {
         {/* CTA */}
         <button
           onClick={handleTrial}
-          className="w-full py-4 bg-[#2F3A34] text-[#F5F1EA] rounded-xl font-label text-sm font-bold uppercase tracking-widest hover:bg-[#1A221E] transition-all shadow-md active:scale-[0.98] mb-4"
+          className="w-full py-4 bg-[#2F3A34] text-[#F5F1EA] rounded-xl font-label text-sm font-bold uppercase tracking-widest hover:bg-[#1A221E] hover:scale-[1.02] transition-all shadow-md active:scale-[0.98] mb-4"
         >
           Start Your 7-Day Free Trial
         </button>

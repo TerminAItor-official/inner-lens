@@ -22,7 +22,9 @@
       "Bash(powershell -command \"Get-ChildItem src/assets/philosophers | Select-Object Name, Length\")",
       "Bash(vercel --prod)",
       "Bash(vercel --prod --yes)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
     ]
   }
 }
